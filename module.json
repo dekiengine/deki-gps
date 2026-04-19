@@ -1,0 +1,12 @@
+{
+  "id": "deki-gps",
+  "displayName": "GPS (NMEA over UART)",
+  "buildDefine": "DEKI_MODULE_GPS",
+  "requires": [],
+  "features": [
+    {"id": "nmea", "displayName": "NMEA UART", "buildDefine": "DEKI_FEATURE_GPS_NMEA", "defaultEnabled": true, "componentGuids": []}
+  ],
+  "dependencies": {
+    "espidf": ["driver"]
+  }
+}
