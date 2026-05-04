@@ -1,19 +1,6 @@
 #include "DekiGPSModule.h"
 #include "interop/DekiPlugin.h"
-#include "DekiGPSProvider.h"
-#include "nmea/NMEAGPS.h"
-
-namespace
-{
-struct DekiGPSBackendInit
-{
-    DekiGPSBackendInit()
-    {
-        DekiGPSProvider::SetFactory([]() -> IDekiGPS* { return new NMEAGPS(); });
-    }
-};
-static DekiGPSBackendInit s_gps_init;
-}
+#include "DekiLogSystem.h"
 
 #ifdef DEKI_EDITOR
 
@@ -44,14 +31,18 @@ DEKI_PLUGIN_API const char* DekiPlugin_GetVersion(void)
 #endif
 }
 DEKI_PLUGIN_API const char* DekiPlugin_GetReflectionJson(void) { return "{}"; }
-DEKI_PLUGIN_API int  DekiPlugin_Init(void)             { return 0; }
+DEKI_PLUGIN_API int  DekiPlugin_Init(void)             { DEKI_LOG_INFO("[deki-gps] DekiPlugin_Init"); return 0; }
 DEKI_PLUGIN_API void DekiPlugin_Shutdown(void)         { s_GPSRegistered = false; }
 DEKI_PLUGIN_API int  DekiPlugin_GetComponentCount(void){ return DekiGPS_GetAutoComponentCount(); }
 DEKI_PLUGIN_API const DekiComponentMeta* DekiPlugin_GetComponentMeta(int index)
 {
     return DekiGPS_GetAutoComponentMeta(index);
 }
-DEKI_PLUGIN_API void DekiPlugin_RegisterComponents(void) { DekiGPS_EnsureRegistered(); }
+DEKI_PLUGIN_API void DekiPlugin_RegisterComponents(void)
+{
+    int n = DekiGPS_EnsureRegistered();
+    DEKI_LOG_INFO("[deki-gps] DekiPlugin_RegisterComponents -> %d component(s)", n);
+}
 
 DEKI_PLUGIN_API int DekiPlugin_GetFeatureCount(void) { return 0; }
 DEKI_PLUGIN_API const struct DekiModuleFeatureInfo* DekiPlugin_GetFeature(int) { return nullptr; }

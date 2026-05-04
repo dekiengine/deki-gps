@@ -1,13 +1,10 @@
 #include "NMEAGPS.h"
+#include "providers/DekiUARTProvider.h"
 #include "DekiLogSystem.h"
 
 #include <cstdlib>
 #include <cstring>
 #include <cmath>
-
-#if defined(ESP32)
-#include "driver/uart.h"
-#endif
 
 namespace
 {
@@ -24,45 +21,46 @@ void NMEAGPS::Configure(const ModuleConfig& config)
 
 bool NMEAGPS::Initialize()
 {
-#if defined(ESP32)
-    if (m_PinRX < 0)
+    if (!m_UART)
     {
-        m_LastError = "NMEAGPS: RX pin not configured";
-        m_State = ModuleState::Error;
-        return false;
+        m_UART = DekiUARTProvider::Create();
+        if (!m_UART)
+        {
+            m_LastError = "NMEAGPS: no UART backend registered";
+            m_State = ModuleState::Error;
+            return false;
+        }
     }
 
-    uart_config_t cfg = {};
-    cfg.baud_rate = (int)m_Baud;
-    cfg.data_bits = UART_DATA_8_BITS;
-    cfg.parity    = UART_PARITY_DISABLE;
-    cfg.stop_bits = UART_STOP_BITS_1;
-    cfg.flow_ctrl = UART_HW_FLOWCTRL_DISABLE;
-    cfg.source_clk = UART_SCLK_DEFAULT;
+    ModuleConfig uartCfg;
+    uartCfg.moduleId = "uart";
+    uartCfg.enabled  = true;
+    uartCfg.pins["TX"] = m_PinTX;
+    uartCfg.pins["RX"] = m_PinRX;
+    uartCfg.settings["baud"]      = std::to_string(m_Baud);
+    uartCfg.settings["uart_port"] = std::to_string(m_UartPort);
 
-    if (uart_param_config((uart_port_t)m_UartPort, &cfg) != ESP_OK ||
-        uart_set_pin((uart_port_t)m_UartPort, m_PinTX, m_PinRX, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE) != ESP_OK ||
-        uart_driver_install((uart_port_t)m_UartPort, 1024, 0, 0, nullptr, 0) != ESP_OK)
+    m_UART->Configure(uartCfg);
+
+    if (!m_UART->Initialize())
     {
-        m_LastError = "NMEAGPS: uart driver install failed";
+        m_LastError = "NMEAGPS: UART initialize failed";
         m_State = ModuleState::Error;
         return false;
     }
 
     m_State = ModuleState::Running;
     return true;
-#else
-    m_LastError = "NMEAGPS: hardware path only built for ESP32";
-    m_State = ModuleState::Error;
-    return false;
-#endif
 }
 
 void NMEAGPS::Shutdown()
 {
-#if defined(ESP32)
-    uart_driver_delete((uart_port_t)m_UartPort);
-#endif
+    if (m_UART)
+    {
+        m_UART->Shutdown();
+        delete m_UART;
+        m_UART = nullptr;
+    }
     m_State = ModuleState::Uninitialized;
 }
 
@@ -73,14 +71,15 @@ void NMEAGPS::Update(float deltaTime)
     float t = m_SecondsSinceFix.load(std::memory_order_relaxed);
     if (t < 1e8f) m_SecondsSinceFix.store(t + deltaTime, std::memory_order_relaxed);
 
-    PumpUart(deltaTime);
+    PumpUart();
 }
 
-void NMEAGPS::PumpUart(float)
+void NMEAGPS::PumpUart()
 {
-#if defined(ESP32)
+    if (!m_UART) return;
+
     uint8_t buf[128];
-    int n = uart_read_bytes((uart_port_t)m_UartPort, buf, sizeof(buf), 0);
+    int n = m_UART->Read(buf, sizeof(buf), 0);
     for (int i = 0; i < n; ++i)
     {
         char c = (char)buf[i];
@@ -95,7 +94,6 @@ void NMEAGPS::PumpUart(float)
             m_LineBuffer[m_LinePos++] = c;
         }
     }
-#endif
 }
 
 bool NMEAGPS::ChecksumValid(const char* line)
@@ -130,11 +128,9 @@ bool NMEAGPS::ParseRMC(const char* line, double& lat, double& lon) const
 
     char* fields[13] = {};
     int n = 0;
-    char* save = nullptr;
     for (char* tok = std::strtok(buf, ",*"); tok && n < 13; tok = std::strtok(nullptr, ",*"))
     {
         fields[n++] = tok;
-        (void)save;
     }
     if (n < 7) return false;
     if (!fields[2] || fields[2][0] != 'A') return false;     // status A = valid

@@ -1,7 +1,8 @@
 #pragma once
 
 #include "../IDekiGPS.h"
-#include "modules/ModuleConfig.h"
+#include "ModuleConfig.h"
+#include "providers/IDekiUART.h"
 #include <string>
 #include <atomic>
 
@@ -24,10 +25,11 @@ public:
     bool            HasLiveFix() const override;
 
 private:
-    int      m_PinTX = -1;
-    int      m_PinRX = -1;
-    int      m_UartPort = 1;
-    uint32_t m_Baud = 9600;
+    int        m_PinTX = -1;
+    int        m_PinRX = -1;
+    int        m_UartPort = 1;
+    uint32_t   m_Baud = 9600;
+    IDekiUART* m_UART = nullptr;
 
     ModuleState m_State = ModuleState::Uninitialized;
     std::string m_LastError;
@@ -39,7 +41,7 @@ private:
     char    m_LineBuffer[96] = {};
     size_t  m_LinePos = 0;
 
-    void  PumpUart(float deltaTime);
+    void  PumpUart();
     void  HandleLine(const char* line);
     bool  ParseRMC(const char* line, double& lat, double& lon) const;
     static bool ChecksumValid(const char* line);
