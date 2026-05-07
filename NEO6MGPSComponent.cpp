@@ -1,5 +1,5 @@
 #include "NEO6MGPSComponent.h"
-#include "DekiGPSProvider.h"
+#include "DekiGPS.h"
 #include "ModuleConfig.h"
 #include "DekiLogSystem.h"
 #include <string>
@@ -24,7 +24,7 @@ void NEO6MGPSComponent::Setup(SetupCallback onComplete)
     const bool success = s_Driver->Initialize();
     if (success)
     {
-        DekiGPSProvider::SetCurrent(s_Driver);
+        DekiGPS::SetCurrent(s_Driver);
     }
     else
     {

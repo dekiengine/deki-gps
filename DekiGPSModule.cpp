@@ -1,6 +1,7 @@
 #include "DekiGPSModule.h"
 #include "interop/DekiPlugin.h"
 #include "DekiLogSystem.h"
+#include "DekiGPS.h"
 
 #ifdef DEKI_EDITOR
 
@@ -32,7 +33,15 @@ DEKI_PLUGIN_API const char* DekiPlugin_GetVersion(void)
 }
 DEKI_PLUGIN_API const char* DekiPlugin_GetReflectionJson(void) { return "{}"; }
 DEKI_PLUGIN_API int  DekiPlugin_Init(void)             { DEKI_LOG_INFO("[deki-gps] DekiPlugin_Init"); return 0; }
-DEKI_PLUGIN_API void DekiPlugin_Shutdown(void)         { s_GPSRegistered = false; }
+DEKI_PLUGIN_API void DekiPlugin_Shutdown(void)
+{
+    s_GPSRegistered = false;
+    // Null the provider so a hot-reload doesn't leave a dangling pointer to a
+    // driver instance whose .text is about to be unloaded with the DLL. The
+    // driver itself (DesktopGPSComponent's s_Driver) is intentionally leaked,
+    // matching the embedded NEO6MGPSComponent pattern.
+    DekiGPS::SetCurrent(nullptr);
+}
 DEKI_PLUGIN_API int  DekiPlugin_GetComponentCount(void){ return DekiGPS_GetAutoComponentCount(); }
 DEKI_PLUGIN_API const DekiComponentMeta* DekiPlugin_GetComponentMeta(int index)
 {

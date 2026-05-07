@@ -1,5 +1,5 @@
 #include "NMEAGPS.h"
-#include "providers/DekiUARTProvider.h"
+#include "providers/DekiUART.h"
 #include "DekiLogSystem.h"
 
 #include <cstdlib>
@@ -23,7 +23,7 @@ bool NMEAGPS::Initialize()
 {
     if (!m_UART)
     {
-        m_UART = DekiUARTProvider::Create();
+        m_UART = DekiUART::Create();
         if (!m_UART)
         {
             m_LastError = "NMEAGPS: no UART backend registered";
