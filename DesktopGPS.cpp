@@ -4,6 +4,7 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <ctime>
 
 void DesktopGPS::Configure(const ModuleConfig&)
 {
@@ -40,6 +41,18 @@ DekiGPSLocation DesktopGPS::Current() const
 bool DesktopGPS::HasLiveFix() const
 {
     return m_HasFix.load();
+}
+
+int64_t DesktopGPS::CurrentUTCEpochSeconds() const
+{
+    return (int64_t)std::time(nullptr);
+}
+
+bool DesktopGPS::HasUTC() const
+{
+    // The desktop's system clock is the UTC source — std::time() is always UTC
+    // regardless of the OS timezone setting. Available for the lifetime of the process.
+    return true;
 }
 
 namespace

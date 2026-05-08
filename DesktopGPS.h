@@ -35,6 +35,8 @@ public:
 
     DekiGPSLocation Current() const override;
     bool            HasLiveFix() const override;
+    int64_t         CurrentUTCEpochSeconds() const override;
+    bool            HasUTC() const override;
 
 private:
     void FetchLocation();
