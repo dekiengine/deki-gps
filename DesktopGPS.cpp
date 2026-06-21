@@ -1,5 +1,5 @@
 #include "DesktopGPS.h"
-#include "providers/DekiHttp.h"
+#include "DekiHttp.h"
 #include "DekiLogSystem.h"
 
 #include <cstdlib>

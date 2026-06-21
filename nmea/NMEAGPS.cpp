@@ -1,5 +1,5 @@
 #include "NMEAGPS.h"
-#include "providers/DekiUART.h"
+#include "DekiUART.h"  // from deki-uart
 #include "DekiLogSystem.h"
 
 #include <cstdlib>

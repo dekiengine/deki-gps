@@ -2,7 +2,7 @@
 
 #include "../IDekiGPS.h"
 #include "ModuleConfig.h"
-#include "providers/IDekiUART.h"
+#include "IDekiUART.h"  // from deki-uart
 #include <string>
 #include <atomic>
 
