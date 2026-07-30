@@ -17,6 +17,7 @@ class NEO6MGPSComponent : public SetupComponent
 public:
     DEKI_COMPONENT(NEO6MGPSComponent, SetupComponent, "Sensors", "7c3a5e12-8b49-4f26-a735-d089e4b1c6f2", "")
     DEKI_DISPLAY_NAME("NEO-6M GPS")
+    DEKI_DESCRIPTION("Reads location from a u-blox NEO-6M GPS over UART.")
 
     DEKI_EXPORT
     DEKI_RANGE(0, 48)
