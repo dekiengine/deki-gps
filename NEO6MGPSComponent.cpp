@@ -4,12 +4,12 @@
 #include "DekiLogSystem.h"
 #include <string>
 
-static NMEAGPS* s_Driver = nullptr;
+static NMEAGPS* s_NEO6MDriver = nullptr;
 
 void NEO6MGPSComponent::Setup(SetupCallback onComplete)
 {
-    if (!s_Driver)
-        s_Driver = new NMEAGPS();
+    if (!s_NEO6MDriver)
+        s_NEO6MDriver = new NMEAGPS();
 
     ModuleConfig cfg;
     cfg.moduleId = "gps";
@@ -19,12 +19,12 @@ void NEO6MGPSComponent::Setup(SetupCallback onComplete)
     cfg.settings["baud"]      = std::to_string(baud);
     cfg.settings["uart_port"] = std::to_string(uart_port);
 
-    s_Driver->Configure(cfg);
+    s_NEO6MDriver->Configure(cfg);
 
-    const bool success = s_Driver->Initialize();
+    const bool success = s_NEO6MDriver->Initialize();
     if (success)
     {
-        DekiGPS::SetCurrent(s_Driver);
+        DekiGPS::SetCurrent(s_NEO6MDriver);
     }
     else
     {

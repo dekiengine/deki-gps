@@ -3,23 +3,23 @@
 #include "ModuleConfig.h"
 #include "DekiLogSystem.h"
 
-static DesktopGPS* s_Driver = nullptr;
+static DesktopGPS* s_DesktopDriver = nullptr;
 
 void DesktopGPSComponent::Setup(SetupCallback onComplete)
 {
-    if (!s_Driver)
-        s_Driver = new DesktopGPS();
+    if (!s_DesktopDriver)
+        s_DesktopDriver = new DesktopGPS();
 
     ModuleConfig cfg;
     cfg.moduleId = "gps";
     cfg.enabled  = true;
 
-    s_Driver->Configure(cfg);
+    s_DesktopDriver->Configure(cfg);
 
-    const bool success = s_Driver->Initialize();
+    const bool success = s_DesktopDriver->Initialize();
     if (success)
     {
-        DekiGPS::SetCurrent(s_Driver);
+        DekiGPS::SetCurrent(s_DesktopDriver);
     }
     else
     {
