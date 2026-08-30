@@ -28,7 +28,7 @@ void NMEAGPS::Configure(const PackageConfig& config)
     m_PinTX     = config.GetPin("TX", -1);
     m_PinRX     = config.GetPin("RX", -1);
     m_Baud      = (uint32_t)config.GetInt("baud", 9600);
-    m_UartPort  = config.GetInt("uart_port", 1);
+    m_UartPort  = config.GetInt("uartPort", 1);
 }
 
 bool NMEAGPS::Initialize()
@@ -50,7 +50,7 @@ bool NMEAGPS::Initialize()
     uartCfg.pins["TX"] = m_PinTX;
     uartCfg.pins["RX"] = m_PinRX;
     uartCfg.settings["baud"]      = std::to_string(m_Baud);
-    uartCfg.settings["uart_port"] = std::to_string(m_UartPort);
+    uartCfg.settings["uartPort"] = std::to_string(m_UartPort);
 
     m_UART->Configure(uartCfg);
 

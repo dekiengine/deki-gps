@@ -21,11 +21,11 @@ public:
 
     DEKI_EXPORT
     DEKI_RANGE(0, 48)
-    int32_t tx_pin = 17;
+    int32_t txPin = 17;
 
     DEKI_EXPORT
     DEKI_RANGE(0, 48)
-    int32_t rx_pin = 16;
+    int32_t rxPin = 16;
 
     /** @brief NEO-6M default is 9600. u-blox M8 can go up to 115200 once configured. */
     DEKI_EXPORT
@@ -34,7 +34,7 @@ public:
 
     DEKI_EXPORT
     DEKI_RANGE(0, 2)
-    int32_t uart_port = 1;
+    int32_t uartPort = 1;
 
     NEO6MGPSComponent() = default;
     virtual ~NEO6MGPSComponent() = default;
