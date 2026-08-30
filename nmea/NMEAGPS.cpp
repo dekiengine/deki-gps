@@ -23,7 +23,7 @@ namespace
     }
 }
 
-void NMEAGPS::Configure(const ModuleConfig& config)
+void NMEAGPS::Configure(const PackageConfig& config)
 {
     m_PinTX     = config.GetPin("TX", -1);
     m_PinRX     = config.GetPin("RX", -1);
@@ -39,13 +39,13 @@ bool NMEAGPS::Initialize()
         if (!m_UART)
         {
             m_LastError = "NMEAGPS: no UART backend registered";
-            m_State = ModuleState::Error;
+            m_State = PackageState::Error;
             return false;
         }
     }
 
-    ModuleConfig uartCfg;
-    uartCfg.moduleId = "uart";
+    PackageConfig uartCfg;
+    uartCfg.packageId = "uart";
     uartCfg.enabled  = true;
     uartCfg.pins["TX"] = m_PinTX;
     uartCfg.pins["RX"] = m_PinRX;
@@ -57,11 +57,11 @@ bool NMEAGPS::Initialize()
     if (!m_UART->Initialize())
     {
         m_LastError = "NMEAGPS: UART initialize failed";
-        m_State = ModuleState::Error;
+        m_State = PackageState::Error;
         return false;
     }
 
-    m_State = ModuleState::Running;
+    m_State = PackageState::Running;
     return true;
 }
 
@@ -73,12 +73,12 @@ void NMEAGPS::Shutdown()
         delete m_UART;
         m_UART = nullptr;
     }
-    m_State = ModuleState::Uninitialized;
+    m_State = PackageState::Uninitialized;
 }
 
 void NMEAGPS::Update(float deltaTime)
 {
-    if (m_State != ModuleState::Running) return;
+    if (m_State != PackageState::Running) return;
 
     float t = m_SecondsSinceFix.load(std::memory_order_relaxed);
     if (t < 1e8f) m_SecondsSinceFix.store(t + deltaTime, std::memory_order_relaxed);

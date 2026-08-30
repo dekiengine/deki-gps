@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IDekiGPS.h"
-#include "ModuleConfig.h"
+#include "PackageConfig.h"
 #include <atomic>
 #include <string>
 #include <thread>
@@ -16,7 +16,7 @@
  * response has been parsed; it stays false on any failure (no fallback).
  *
  * Network is performed via DekiHttp::GetCurrent(), which is set by
- * the deki-http module before deki-gps loads (load order is alphabetical).
+ * the deki-http package before deki-gps loads (load order is alphabetical).
  */
 class DesktopGPS : public IDekiGPS
 {
@@ -24,13 +24,13 @@ public:
     DesktopGPS()  = default;
     ~DesktopGPS() override = default;
 
-    const char* GetModuleId() const override   { return "gps"; }
-    const char* GetModuleName() const override { return "Desktop IP Geolocation"; }
-    void        Configure(const ModuleConfig& config) override;
+    const char* GetPackageId() const override   { return "gps"; }
+    const char* GetPackageName() const override { return "Desktop IP Geolocation"; }
+    void        Configure(const PackageConfig& config) override;
     bool        Initialize() override;
     void        Shutdown() override;
     void        Update(float) override {}
-    ModuleState GetState() const override      { return m_State; }
+    PackageState GetState() const override      { return m_State; }
     const char* GetLastError() const override  { return m_LastError.c_str(); }
 
     DekiGPSLocation Current() const override;
@@ -41,7 +41,7 @@ public:
 private:
     void FetchLocation();
 
-    ModuleState m_State = ModuleState::Uninitialized;
+    PackageState m_State = PackageState::Uninitialized;
     std::string m_LastError;
 
     std::atomic<double> m_Lat{0.0};

@@ -10,7 +10,7 @@
  * shape, no editable hardware properties because the desktop driver has no
  * pins/UART config.
  *
- * Auto-fired by SetupComponent::RunEditorAutoSetups() after module load.
+ * Auto-fired by SetupComponent::RunEditorAutoSetups() after package load.
  */
 class DesktopGPSComponent : public SetupComponent
 {

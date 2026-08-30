@@ -6,7 +6,7 @@
 #include "nmea/NMEAGPS.h"
 
 /**
- * @brief Boot-scene component for the u-blox NEO-6M GPS module.
+ * @brief Boot-scene component for the u-blox NEO-6M GPS package.
  *
  * Uses the generic NMEA-over-UART driver (NMEAGPS). Works with any
  * NMEA-compliant GPS receiver; named after the specific hardware on the

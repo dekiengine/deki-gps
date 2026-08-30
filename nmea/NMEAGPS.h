@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../IDekiGPS.h"
-#include "ModuleConfig.h"
+#include "PackageConfig.h"
 #include "IDekiUART.h"  // from deki-uart
 #include <string>
 #include <atomic>
@@ -12,13 +12,13 @@ public:
     NMEAGPS() = default;
     ~NMEAGPS() override = default;
 
-    const char* GetModuleId() const override   { return "gps"; }
-    const char* GetModuleName() const override { return "NMEA GPS (UART)"; }
-    void        Configure(const ModuleConfig& config) override;
+    const char* GetPackageId() const override   { return "gps"; }
+    const char* GetPackageName() const override { return "NMEA GPS (UART)"; }
+    void        Configure(const PackageConfig& config) override;
     bool        Initialize() override;
     void        Shutdown() override;
     void        Update(float deltaTime) override;
-    ModuleState GetState() const override      { return m_State; }
+    PackageState GetState() const override      { return m_State; }
     const char* GetLastError() const override  { return m_LastError.c_str(); }
 
     DekiGPSLocation Current() const override;
@@ -33,7 +33,7 @@ private:
     uint32_t   m_Baud = 9600;
     IDekiUART* m_UART = nullptr;
 
-    ModuleState m_State = ModuleState::Uninitialized;
+    PackageState m_State = PackageState::Uninitialized;
     std::string m_LastError;
 
     mutable std::atomic<double>  m_LastLat{0.0};

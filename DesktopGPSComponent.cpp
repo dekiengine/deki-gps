@@ -1,6 +1,6 @@
 #include "DesktopGPSComponent.h"
 #include "DekiGPS.h"
-#include "ModuleConfig.h"
+#include "PackageConfig.h"
 #include "DekiLogSystem.h"
 
 static DesktopGPS* s_DesktopDriver = nullptr;
@@ -10,8 +10,8 @@ void DesktopGPSComponent::Setup(SetupCallback onComplete)
     if (!s_DesktopDriver)
         s_DesktopDriver = new DesktopGPS();
 
-    ModuleConfig cfg;
-    cfg.moduleId = "gps";
+    PackageConfig cfg;
+    cfg.packageId = "gps";
     cfg.enabled  = true;
 
     s_DesktopDriver->Configure(cfg);

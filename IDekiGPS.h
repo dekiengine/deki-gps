@@ -1,6 +1,6 @@
 #pragma once
 
-#include "providers/IDekiModule.h"
+#include "providers/IDekiPackage.h"
 #include <cstdint>
 
 struct DekiGPSLocation
@@ -9,10 +9,10 @@ struct DekiGPSLocation
     double longitude = 0.0;
 };
 
-class IDekiGPS : public IDekiModule
+class IDekiGPS : public IDekiPackage
 {
 public:
-    const char* GetModuleCategory() const override { return "gps"; }
+    const char* GetPackageCategory() const override { return "gps"; }
 
     virtual DekiGPSLocation Current() const = 0;
     virtual bool            HasLiveFix() const = 0;

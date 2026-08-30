@@ -1,6 +1,6 @@
 #include "NEO6MGPSComponent.h"
 #include "DekiGPS.h"
-#include "ModuleConfig.h"
+#include "PackageConfig.h"
 #include "DekiLogSystem.h"
 #include <string>
 
@@ -11,8 +11,8 @@ void NEO6MGPSComponent::Setup(SetupCallback onComplete)
     if (!s_NEO6MDriver)
         s_NEO6MDriver = new NMEAGPS();
 
-    ModuleConfig cfg;
-    cfg.moduleId = "gps";
+    PackageConfig cfg;
+    cfg.packageId = "gps";
     cfg.enabled  = true;
     cfg.pins["TX"] = tx_pin;
     cfg.pins["RX"] = rx_pin;
