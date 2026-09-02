@@ -1,3 +1,7 @@
+/**
+ * @file DekiGPSPackage.cpp
+ * @brief Package entry point for deki-gps
+ */
 #include "DekiGPSPackage.h"
 #include "interop/DekiPlugin.h"
 #include "DekiLogSystem.h"
