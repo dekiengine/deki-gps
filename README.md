@@ -2,7 +2,7 @@
 
 GPS peripheral interface for the Deki Engine, with an NMEA-over-UART backend.
 
-Part of the [Deki Engine](https://github.com/Kirbyrawr/deki-engine) package ecosystem.
+Part of the [Deki Engine](https://github.com/dekiengine/deki-engine) package ecosystem.
 
 ## Installation
 
