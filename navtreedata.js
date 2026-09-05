@@ -28,8 +28,8 @@ var NAVTREE =
     [ "Components", "index.html#autotoc_md0", null ],
     [ "Feature flags", "index.html#autotoc_md1", null ],
     [ "Component reference", "index.html#autotoc_md2", [
-      [ "DesktopGPSComponent (Desktop GPS)", "index.html#c-desktopgpscomponent", null ],
-      [ "NEO6MGPSComponent (NEO-6M GPS)", "index.html#c-neo6mgpscomponent", null ]
+      [ "DesktopGPSComponent", "index.html#c-desktopgpscomponent", null ],
+      [ "NEO6MGPSComponent", "index.html#c-neo6mgpscomponent", null ]
     ] ]
   ] ]
 ];
