@@ -12,10 +12,10 @@
  * NMEA-compliant GPS receiver; named after the specific hardware on the
  * Go-Hero board.
  */
-class NEO6MGPSComponent : public SetupComponent
+class NEO6MGPSComponent : public Deki::SetupComponent
 {
 public:
-    DEKI_COMPONENT(NEO6MGPSComponent, SetupComponent, "Sensors", "7c3a5e12-8b49-4f26-a735-d089e4b1c6f2", "")
+    DEKI_COMPONENT(NEO6MGPSComponent, Deki::SetupComponent, "Sensors", "7c3a5e12-8b49-4f26-a735-d089e4b1c6f2", "")
     DEKI_DISPLAY_NAME("NEO-6M GPS")
     DEKI_DESCRIPTION("Reads location from a u-blox NEO-6M GPS over UART.")
 

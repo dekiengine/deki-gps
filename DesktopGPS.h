@@ -26,11 +26,11 @@ public:
 
     const char* GetPackageId() const override   { return "gps"; }
     const char* GetPackageName() const override { return "Desktop IP Geolocation"; }
-    void        Configure(const PackageConfig& config) override;
+    void        Configure(const Deki::PackageConfig& config) override;
     bool        Initialize() override;
     void        Shutdown() override;
     void        Update(float) override {}
-    PackageState GetState() const override      { return m_State; }
+    Deki::PackageState GetState() const override      { return m_State; }
     const char* GetLastError() const override  { return m_LastError.c_str(); }
 
     DekiGPSLocation Current() const override;
@@ -41,7 +41,7 @@ public:
 private:
     void FetchLocation();
 
-    PackageState m_State = PackageState::Uninitialized;
+    Deki::PackageState m_State = Deki::PackageState::Uninitialized;
     std::string m_LastError;
 
     std::atomic<double> m_Lat{0.0};

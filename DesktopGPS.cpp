@@ -6,7 +6,7 @@
 #include <cstring>
 #include <ctime>
 
-void DesktopGPS::Configure(const PackageConfig&)
+void DesktopGPS::Configure(const Deki::PackageConfig&)
 {
 }
 
@@ -18,7 +18,7 @@ bool DesktopGPS::Initialize()
 
     m_Thread = std::thread(&DesktopGPS::FetchLocation, this);
 
-    m_State = PackageState::Initialized;
+    m_State = Deki::PackageState::Initialized;
     return true;
 }
 
@@ -27,7 +27,7 @@ void DesktopGPS::Shutdown()
     m_Cancel.store(true);
     if (m_Thread.joinable())
         m_Thread.join();
-    m_State = PackageState::Uninitialized;
+    m_State = Deki::PackageState::Uninitialized;
 }
 
 DekiGPSLocation DesktopGPS::Current() const

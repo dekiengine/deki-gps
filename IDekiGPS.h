@@ -9,7 +9,7 @@ struct DekiGPSLocation
     double longitude = 0.0;
 };
 
-class IDekiGPS : public IDekiPackage
+class IDekiGPS : public Deki::IPackage
 {
 public:
     const char* GetPackageCategory() const override { return "gps"; }

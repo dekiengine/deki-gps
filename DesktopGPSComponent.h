@@ -12,10 +12,10 @@
  *
  * Auto-fired by SetupComponent::RunEditorAutoSetups() after package load.
  */
-class DesktopGPSComponent : public SetupComponent
+class DesktopGPSComponent : public Deki::SetupComponent
 {
 public:
-    DEKI_COMPONENT(DesktopGPSComponent, SetupComponent, "System", "5e2a9d61-4f8c-4b73-a902-1d6b7e4c8a3f", "")
+    DEKI_COMPONENT(DesktopGPSComponent, Deki::SetupComponent, "System", "5e2a9d61-4f8c-4b73-a902-1d6b7e4c8a3f", "")
     DEKI_DISPLAY_NAME("Desktop GPS")
     DEKI_DESCRIPTION("Stands in for the GPS receiver on desktop, so location works without hardware.")
 

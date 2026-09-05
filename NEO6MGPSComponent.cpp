@@ -11,7 +11,7 @@ void NEO6MGPSComponent::Setup(SetupCallback onComplete)
     if (!s_NEO6MDriver)
         s_NEO6MDriver = new NMEAGPS();
 
-    PackageConfig cfg;
+    Deki::PackageConfig cfg;
     cfg.packageId = "gps";
     cfg.enabled  = true;
     cfg.pins["TX"] = txPin;

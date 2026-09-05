@@ -10,7 +10,7 @@ void DesktopGPSComponent::Setup(SetupCallback onComplete)
     if (!s_DesktopDriver)
         s_DesktopDriver = new DesktopGPS();
 
-    PackageConfig cfg;
+    Deki::PackageConfig cfg;
     cfg.packageId = "gps";
     cfg.enabled  = true;
 
