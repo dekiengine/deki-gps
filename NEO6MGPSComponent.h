@@ -12,12 +12,12 @@
  * NMEA-compliant GPS receiver; named after the specific module it was
  * first written for.
  */
+DEKI_CATEGORY("Sensors")
+DEKI_DISPLAY_NAME("NEO-6M GPS")
+DEKI_DESCRIPTION("Reads location from a u-blox NEO-6M GPS over UART.")
 class NEO6MGPSComponent : public Deki::SetupComponent
 {
 public:
-    DEKI_COMPONENT(NEO6MGPSComponent, Deki::SetupComponent, "Sensors", "7c3a5e12-8b49-4f26-a735-d089e4b1c6f2", "")
-    DEKI_DISPLAY_NAME("NEO-6M GPS")
-    DEKI_DESCRIPTION("Reads location from a u-blox NEO-6M GPS over UART.")
 
     DEKI_EXPORT
     DEKI_RANGE(0, 48)
@@ -43,4 +43,3 @@ public:
     const char* GetSetupName() const override { return "NEO-6M GPS"; }
 };
 
-#include "generated/NEO6MGPSComponent.gen.h"

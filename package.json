@@ -1,7 +1,7 @@
 {
   "id": "deki-gps",
   "displayName": "GPS (NMEA over UART)",
-  "minEngine": "0.10.0",
+  "minEngine": "0.11.0",
   "buildDefine": "DEKI_PACKAGE_GPS",
   "requires": [
     "deki-http",
@@ -13,7 +13,7 @@
       "displayName": "NMEA UART",
       "buildDefine": "DEKI_FEATURE_GPS_NMEA",
       "defaultEnabled": true,
-      "componentGuids": []
+      "componentTypes": []
     }
   ],
   "dependencies": {
