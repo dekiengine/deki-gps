@@ -25,7 +25,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">deki-gps<span id="projectnumber">&#160;0.10.0</span>
+   <div id="projectname">deki-gps<span id="projectnumber">&#160;0.15.0</span>
    </div>
    <div id="projectbrief">Deki package reference</div>
   </td>
@@ -80,9 +80,9 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('index.html',''
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="mainpage"></a></p>
 <p>GPS peripheral interface and NMEA-over-UART backend</p>
-<p>Repository: <a href="https://github.com/dekiengine/deki-gps">github.com/dekiengine/deki-gps</a> · Latest release: 0.10.0 · Requires: <a href="https://dekiengine.github.io/deki-http/">deki-http</a>, <a href="https://dekiengine.github.io/deki-uart/">deki-uart</a></p>
+<p>Repository: <a href="https://github.com/dekiengine/deki-gps">github.com/dekiengine/deki-gps</a> · Latest release: 0.15.0 · Needs engine 0.15.0+ · Requires: <a href="https://dekiengine.github.io/deki-http/">deki-http</a>, <a href="https://dekiengine.github.io/deki-uart/">deki-uart</a></p>
 <p>Install: <span class="tt">DekiEditor --packages-add deki-gps &lt;project&gt;</span>, or add it in the Package Manager. Part of <a href="https://dekiengine.github.io/docs/">Deki</a>; the engine's own components and the C++ API are documented there.</p>
-<p>Shown in the editor as <b>GPS</b>.</p>
+<p>Shown in the editor as <b>GPS (NMEA over UART)</b>.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md0"></a>
 Components</h1>
 <table class="markdownTable">
@@ -94,16 +94,25 @@ Components</h1>
 <td class="markdownTableBodyNone"><a class="el" href="#c-neo6mgpscomponent" title="NEO6MGPSComponent">NEO6MGPSComponent</a>  </td><td class="markdownTableBodyNone">Sensors  </td><td class="markdownTableBodyNone">Reads location from a u-blox NEO-6M GPS over UART.  </td></tr>
 </table>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
+Feature flags</h1>
+<p>Compile-time features the package exposes (<span class="tt">package.json</span>):</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Feature  </th><th class="markdownTableHeadNone">Define  </th><th class="markdownTableHeadNone">Default  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">NMEA UART  </td><td class="markdownTableBodyNone"><span class="tt">DEKI_FEATURE_GPS_NMEA</span>  </td><td class="markdownTableBodyNone">on  </td></tr>
+</table>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
 Component reference</h1>
 <h2 class="doxsection"><a class="anchor" id="c-desktopgpscomponent"></a>
 DesktopGPSComponent</h2>
 <p>Stands in for the GPS receiver on desktop, so location works without hardware.</p>
-<p>Inspector name: Desktop GPS · Category: System · Type GUID: <span class="tt">5e2a9d61-4f8c-4b73-a902-1d6b7e4c8a3f</span></p>
+<p>Inspector name: Desktop GPS · Category: System · Type: <span class="tt">DesktopGPSComponent</span></p>
 <p>No reflected properties.</p>
 <h2 class="doxsection"><a class="anchor" id="c-neo6mgpscomponent"></a>
 NEO6MGPSComponent</h2>
 <p>Reads location from a u-blox NEO-6M GPS over UART.</p>
-<p>Inspector name: NEO-6M GPS · Category: Sensors · Type GUID: <span class="tt">7c3a5e12-8b49-4f26-a735-d089e4b1c6f2</span></p>
+<p>Inspector name: NEO-6M GPS · Category: Sensors · Type: <span class="tt">NEO6MGPSComponent</span></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Property  </th><th class="markdownTableHeadNone">Type  </th><th class="markdownTableHeadNone">Default  </th><th class="markdownTableHeadNone">Constraints  </th><th class="markdownTableHeadNone">Description  </th></tr>
@@ -116,8 +125,18 @@ NEO6MGPSComponent</h2>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><span class="tt">uartPort</span>  </td><td class="markdownTableBodyNone">int32  </td><td class="markdownTableBodyNone"><span class="tt">1</span>  </td><td class="markdownTableBodyNone">0 to 2  </td><td class="markdownTableBodyNone"></td></tr>
 </table>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
+Changelog</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
+0.15.0</h2>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
+Changed</h2>
+<ul>
+<li>No changes of its own. Released alongside engine 0.15.0 so <span class="tt">minEngine</span> tracks the engine version.</li>
+</ul>
+<p>Earlier releases: <a href="https://github.com/dekiengine/deki-gps/blob/master/CHANGELOG.md">CHANGELOG.md</a>.</p>
 <hr  />
-<p>Generated from the package's reflection metadata by the Deki documentation build (engine 0.10.0). Reflected property names are the keys scene files use; a rename ships with an alias, see <a href="https://github.com/dekiengine/deki-editor/blob/master/COMPATIBILITY.md">COMPATIBILITY.md</a>. </p>
+<p>Generated from the package's reflection metadata by the Deki documentation build (engine 0.15.0). Reflected property names are the keys scene files use; a rename ships with an alias, see <a href="https://github.com/dekiengine/deki-editor/blob/master/COMPATIBILITY.md">COMPATIBILITY.md</a>. </p>
 </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->
