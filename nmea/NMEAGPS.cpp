@@ -30,7 +30,7 @@ void NMEAGPS::Configure(const Deki::PackageConfig& config)
 {
     m_PinTX     = config.GetPin("TX", -1);
     m_PinRX     = config.GetPin("RX", -1);
-    m_Baud      = (uint32_t)config.GetInt("baud", 9600);
+    m_Baud      = (uint32_t)config.GetInt("baudRate", 9600);
     m_UartPort  = config.GetInt("uartPort", 1);
 }
 
@@ -52,7 +52,7 @@ bool NMEAGPS::Initialize()
     uartCfg.enabled  = true;
     uartCfg.pins["TX"] = m_PinTX;
     uartCfg.pins["RX"] = m_PinRX;
-    uartCfg.settings["baud"]      = std::to_string(m_Baud);
+    uartCfg.settings["baudRate"]      = std::to_string(m_Baud);
     uartCfg.settings["uartPort"] = std::to_string(m_UartPort);
 
     m_UART->Configure(uartCfg);

@@ -34,7 +34,7 @@ public:
     /** @brief NEO-6M default is 9600. u-blox M8 can go up to 115200 once configured. */
     DEKI_EXPORT
     DEKI_RANGE(2400, 921600)
-    int32_t baud = 9600;
+    int32_t baudRate = 9600;
 
     DEKI_EXPORT
     DEKI_RANGE(0, 2)

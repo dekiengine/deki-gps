@@ -19,7 +19,7 @@ void NEO6MGPSComponent::Setup(SetupCallback onComplete)
     cfg.enabled  = true;
     cfg.pins["TX"] = txPin;
     cfg.pins["RX"] = rxPin;
-    cfg.settings["baud"]      = std::to_string(baud);
+    cfg.settings["baudRate"]      = std::to_string(baudRate);
     cfg.settings["uartPort"] = std::to_string(uartPort);
 
     s_NEO6MDriver->Configure(cfg);
@@ -31,8 +31,8 @@ void NEO6MGPSComponent::Setup(SetupCallback onComplete)
     }
     else
     {
-        DEKI_LOG_ERROR("NEO6MGPSComponent: Failed to initialize NEO-6M on UART %d (TX=%d RX=%d @ %d baud)",
-                       (int)uartPort, (int)txPin, (int)rxPin, (int)baud);
+        DEKI_LOG_ERROR("NEO6MGPSComponent: Failed to initialize NEO-6M on UART %d (TX=%d RX=%d @ %d baudRate)",
+                       (int)uartPort, (int)txPin, (int)rxPin, (int)baudRate);
     }
 
     if (onComplete) onComplete(success);
