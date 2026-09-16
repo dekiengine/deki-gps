@@ -6,6 +6,9 @@
 #include <cstring>
 #include <ctime>
 
+namespace DekiGps
+{
+
 void DesktopGPS::Configure(const Deki::PackageConfig&)
 {
 }
@@ -119,3 +122,5 @@ void DesktopGPS::FetchLocation()
     m_HasFix.store(true);
     DEKI_LOG_INFO("[deki-gps] DesktopGPS: live fix acquired at %.4f, %.4f", lat, lon);
 }
+
+}  // namespace DekiGps

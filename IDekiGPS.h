@@ -3,6 +3,9 @@
 #include <deki/providers/IPackage.h>
 #include <cstdint>
 
+namespace DekiGps
+{
+
 struct DekiGPSLocation
 {
     double latitude  = 0.0;
@@ -24,3 +27,5 @@ public:
     virtual int64_t CurrentUTCEpochSeconds() const = 0;
     virtual bool    HasUTC() const = 0;
 };
+
+}  // namespace DekiGps

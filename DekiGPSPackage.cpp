@@ -7,26 +7,35 @@
 #include <deki/LogSystem.h>
 #include "DekiGPS.h"
 
-#ifdef DEKI_EDITOR
-
 extern void DekiGPS_RegisterComponents();
 extern int  DekiGPS_GetAutoComponentCount();
 extern const Deki::ComponentMeta* DekiGPS_GetAutoComponentMeta(int index);
 
+namespace DekiGps
+{
+
+#ifdef DEKI_EDITOR
+
+
 static bool s_GPSRegistered = false;
+
+
+// The exports below are C symbols at global scope; the package's own
+// registration helpers and statics live in its namespace.
+using namespace DekiGps;
 
 extern "C" {
 
 DEKI_GPS_API int DekiGPS_EnsureRegistered(void)
 {
     if (s_GPSRegistered)
-        return DekiGPS_GetAutoComponentCount();
+        return ::DekiGPS_GetAutoComponentCount();
     s_GPSRegistered = true;
-    DekiGPS_RegisterComponents();
-    return DekiGPS_GetAutoComponentCount();
+    ::DekiGPS_RegisterComponents();
+    return ::DekiGPS_GetAutoComponentCount();
 }
 
-DEKI_PLUGIN_API const char* DekiPlugin_GetName(void)    { return "Deki GPS Package"; }
+DEKI_PLUGIN_API const char* DekiPlugin_GetName(void)    { return "DekiRendering::Deki GPS Package"; }
 DEKI_PLUGIN_API const char* DekiPlugin_GetVersion(void)
 {
 #ifdef DEKI_PACKAGE_VERSION
@@ -45,18 +54,20 @@ DEKI_PLUGIN_API void DekiPlugin_Shutdown(void)
     // matching the embedded NEO6MGPSComponent pattern.
     DekiGPS::SetCurrent(nullptr);
 }
-DEKI_PLUGIN_API int  DekiPlugin_GetComponentCount(void){ return DekiGPS_GetAutoComponentCount(); }
+DEKI_PLUGIN_API int  DekiPlugin_GetComponentCount(void){ return ::DekiGPS_GetAutoComponentCount(); }
 DEKI_PLUGIN_API const Deki::ComponentMeta* DekiPlugin_GetComponentMeta(int index)
 {
-    return DekiGPS_GetAutoComponentMeta(index);
+    return ::DekiGPS_GetAutoComponentMeta(index);
 }
 DEKI_PLUGIN_API void DekiPlugin_RegisterComponents(void)
 {
     int n = DekiGPS_EnsureRegistered();
-    DEKI_LOG_INFO("[deki-gps] DekiPlugin_RegisterComponents -> %d component(s)", n);
+    DEKI_LOG_INFO("[deki-gps] ::DekiPlugin_RegisterComponents -> %d component(s)", n);
 }
 
 
 } // extern "C"
 
 #endif // DEKI_EDITOR
+}  // namespace DekiGps
+

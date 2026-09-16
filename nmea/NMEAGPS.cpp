@@ -6,6 +6,9 @@
 #include <cstring>
 #include <cmath>
 
+namespace DekiGps
+{
+
 namespace
 {
     constexpr float kFixStaleAfterSeconds = 5.0f;
@@ -35,7 +38,7 @@ bool NMEAGPS::Initialize()
 {
     if (!m_UART)
     {
-        m_UART = DekiUART::Create();
+        m_UART = DekiUart::DekiUART::Create();
         if (!m_UART)
         {
             m_LastError = "NMEAGPS: no UART backend registered";
@@ -221,3 +224,5 @@ bool NMEAGPS::HasUTC() const
 {
     return m_HasUTC.load(std::memory_order_relaxed);
 }
+
+}  // namespace DekiGps

@@ -6,6 +6,9 @@
 #include <string>
 #include <atomic>
 
+namespace DekiGps
+{
+
 class NMEAGPS : public IDekiGPS
 {
 public:
@@ -31,7 +34,7 @@ private:
     int        m_PinRX = -1;
     int        m_UartPort = 1;
     uint32_t   m_Baud = 9600;
-    IDekiUART* m_UART = nullptr;
+    DekiUart::IDekiUART* m_UART = nullptr;
 
     Deki::PackageState m_State = Deki::PackageState::Uninitialized;
     std::string m_LastError;
@@ -51,3 +54,5 @@ private:
     static bool ChecksumValid(const char* line);
     static double NMEACoordToDeg(const char* coord, char hemi);
 };
+
+}  // namespace DekiGps

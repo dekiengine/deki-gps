@@ -5,6 +5,9 @@
 #include <deki/reflection/Property.h>
 #include "nmea/NMEAGPS.h"
 
+namespace DekiGps
+{
+
 /**
  * @brief Boot-scene component for the u-blox NEO-6M GPS package.
  *
@@ -15,6 +18,7 @@
 DEKI_CATEGORY("Sensors")
 DEKI_DISPLAY_NAME("NEO-6M GPS")
 DEKI_DESCRIPTION("Reads location from a u-blox NEO-6M GPS over UART.")
+DEKI_FORMER_NAME("NEO6MGPSComponent")
 class NEO6MGPSComponent : public Deki::SetupComponent
 {
 public:
@@ -42,4 +46,6 @@ public:
     void        Setup(SetupCallback onComplete) override;
     const char* GetSetupName() const override { return "NEO-6M GPS"; }
 };
+
+}  // namespace DekiGps
 

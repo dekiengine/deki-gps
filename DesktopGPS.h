@@ -6,6 +6,9 @@
 #include <string>
 #include <thread>
 
+namespace DekiGps
+{
+
 /**
  * GPS driver used on desktop where there is no GPS chip. Asks an HTTP IP
  * geolocation service (ip-api.com) for an approximate location once at
@@ -51,3 +54,5 @@ private:
 
     std::thread m_Thread;
 };
+
+}  // namespace DekiGps

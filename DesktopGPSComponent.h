@@ -4,6 +4,9 @@
 #include <deki/reflection/Property.h>
 #include "DesktopGPS.h"
 
+namespace DekiGps
+{
+
 /**
  * @brief Editor / desktop SetupComponent that registers a DesktopGPS with
  * DekiGPS. Mirrors NEO6MGPSComponent (embedded) — same SetupComponent
@@ -15,6 +18,7 @@
 DEKI_CATEGORY("System")
 DEKI_DISPLAY_NAME("Desktop GPS")
 DEKI_DESCRIPTION("Stands in for the GPS receiver on desktop, so location works without hardware.")
+DEKI_FORMER_NAME("DesktopGPSComponent")
 class DesktopGPSComponent : public Deki::SetupComponent
 {
 public:
@@ -25,4 +29,6 @@ public:
     void        Setup(SetupCallback onComplete) override;
     const char* GetSetupName() const override { return "Desktop GPS"; }
 };
+
+}  // namespace DekiGps
 

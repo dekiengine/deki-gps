@@ -4,6 +4,9 @@
 #include <deki/LogSystem.h>
 #include <string>
 
+namespace DekiGps
+{
+
 static NMEAGPS* s_NEO6MDriver = nullptr;
 
 void NEO6MGPSComponent::Setup(SetupCallback onComplete)
@@ -34,3 +37,5 @@ void NEO6MGPSComponent::Setup(SetupCallback onComplete)
 
     if (onComplete) onComplete(success);
 }
+
+}  // namespace DekiGps

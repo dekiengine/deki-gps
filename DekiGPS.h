@@ -2,6 +2,9 @@
 
 #include "IDekiGPS.h"
 
+namespace DekiGps
+{
+
 /**
  * @brief Active-driver registry for GPS.
  *
@@ -19,3 +22,5 @@ public:
 private:
     static IDekiGPS* s_Current;
 };
+
+}  // namespace DekiGps

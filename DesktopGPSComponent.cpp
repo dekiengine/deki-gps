@@ -3,6 +3,9 @@
 #include <deki/PackageConfig.h>
 #include <deki/LogSystem.h>
 
+namespace DekiGps
+{
+
 static DesktopGPS* s_DesktopDriver = nullptr;
 
 void DesktopGPSComponent::Setup(SetupCallback onComplete)
@@ -30,3 +33,5 @@ void DesktopGPSComponent::Setup(SetupCallback onComplete)
 }
 
 DEKI_REGISTER_EDITOR_AUTO_SETUP(DesktopGPSComponent);
+
+}  // namespace DekiGps
