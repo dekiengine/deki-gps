@@ -35,7 +35,7 @@ DEKI_GPS_API int DekiGPS_EnsureRegistered(void)
     return ::DekiGPS_GetAutoComponentCount();
 }
 
-DEKI_PLUGIN_API const char* DekiPlugin_GetName(void)    { return "DekiRendering::Deki GPS Package"; }
+DEKI_PLUGIN_API const char* DekiPlugin_GetName(void)    { return "Deki GPS Package"; }
 DEKI_PLUGIN_API const char* DekiPlugin_GetVersion(void)
 {
 #ifdef DEKI_PACKAGE_VERSION
