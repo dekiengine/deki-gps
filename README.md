@@ -20,6 +20,13 @@ obj->AddComponent<SomeComponent>();
 Scenes saved before 0.16.0 used bare names and still load: every component
 records what it used to be called, and a save writes the current name.
 
+## Dependencies
+
+| Dependency | Type |
+|---|---|
+| `deki-http` | Deki package |
+| `deki-uart` | Deki package |
+
 ## Installation
 
 Install via the Package Manager inside the Deki Editor.
