@@ -6,6 +6,20 @@ GPS peripheral interface for the Deki Engine, with an NMEA-over-UART backend.
 
 Part of the [Deki Engine](https://github.com/dekiengine/deki-engine) package ecosystem.
 
+## Desktop backend and your IP address
+
+There is no GPS on a desktop machine, so the desktop backend asks
+[ip-api.com](https://ip-api.com) where the machine is, which it answers from
+the IP address the request comes from. Two things to know:
+
+- The request is plain HTTP. ip-api.com serves HTTPS only on its paid tier.
+- It runs from the backend's `Initialize()`, so having this package active in
+  a desktop build is enough to make it happen. Nothing asks first.
+
+So a simulator run with this package sends your IP address to a third party
+unencrypted. Leave the package out of a desktop target if that is not what you
+want. Device builds use the NMEA-over-UART backend and make no network request.
+
 ## Namespace
 
 This package's types live in `DekiGps`. Scene files store the qualified

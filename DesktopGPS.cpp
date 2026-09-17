@@ -89,6 +89,13 @@ void DesktopGPS::FetchLocation()
 {
     DEKI_LOG_INFO("[deki-gps] DesktopGPS: querying ip-api.com for approximate location");
 
+    // Plain HTTP, deliberately and unavoidably: ip-api.com serves HTTPS only
+    // on its paid tier. This sends the machine's IP address to a third party
+    // in the clear, and it runs from Initialize(), so simply having this
+    // package active in a desktop build is enough to do it. Called out in the
+    // package README and in the editor's SECURITY.md rather than left to be
+    // discovered. Moving to a provider with free HTTPS would end the
+    // exception and is the right fix when one is chosen.
     std::string body = DekiHttp::FetchUrl("http://ip-api.com/json/");
 
     if (m_Cancel.load() || body.empty())
