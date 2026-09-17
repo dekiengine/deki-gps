@@ -11,6 +11,19 @@ alongside one that has them.
 ## 0.16.0
 
 ### Changed
+- **The desktop backend asks ipwho.is, over HTTPS, instead of ip-api.com.** The
+  old endpoint was plain HTTP, because that service sells encryption as a paid
+  feature, so the machine's address travelled in the clear. Its free tier also
+  restricted use to "a non-commercial purpose and in a non-commercial
+  environment", a restriction every developer shipping a game inherited from
+  the engine without ever being told. ipwho.is permits commercial use on its
+  keyless free endpoint, and its quota is counted per calling address, so one
+  game's players never share a budget.
+- **The answer is cached for an hour**, in `S:/deki-gps-location.txt`. The
+  lookup runs once per process, so without a cache that outlives the process
+  every restart while testing was another request and another disclosure. A
+  missing, unreadable, truncated or future-dated file is a cache miss, never an
+  error. Delete the file to force a fresh lookup.
 - **Moved into the `DekiGps` namespace.** Every component was declared at global
   scope, which made its identity a bare class name — the name a scene file
   stores and the name the registry keys on — so two packages defining one name
