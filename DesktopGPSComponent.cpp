@@ -32,6 +32,9 @@ void DesktopGPSComponent::Setup(SetupCallback onComplete)
     if (onComplete) onComplete(success);
 }
 
-DEKI_REGISTER_EDITOR_AUTO_SETUP(DesktopGPSComponent);
+// Play, not project open. This asks a third party where the machine is, so
+// it waits for the user to press Play rather than firing every time a
+// project is opened. The answer is cached for an hour either way.
+DEKI_REGISTER_PLAY_AUTO_SETUP(DesktopGPSComponent);
 
 }  // namespace DekiGps

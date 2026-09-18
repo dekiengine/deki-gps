@@ -11,6 +11,11 @@ alongside one that has them.
 ## 0.16.0
 
 ### Changed
+- **The location lookup waits for Play.** It was registered to run when the
+  editor finished loading packages, so merely opening a project sent a request
+  to a third party. It is registered for the Play phase now, which is the point
+  at which the user has asked for the game to run. A built game is unchanged:
+  the setup runs when the package starts.
 - **The desktop backend asks ipwho.is, over HTTPS, instead of ip-api.com.** The
   old endpoint was plain HTTP, because that service sells encryption as a paid
   feature, so the machine's address travelled in the clear. Its free tier also

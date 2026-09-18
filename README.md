@@ -14,8 +14,11 @@ the request arrives from, which means the request itself is the disclosure.
 
 What that means in practice:
 
-- **It runs from the backend's `Initialize()`.** Having this package active in
-  a desktop build is enough to make it happen. Nothing asks first.
+- **It runs when you press Play**, and in a built game when the package starts.
+  Opening a project in the editor does not make the request: this setup is
+  registered for the Play phase precisely because it reaches the network.
+  Nothing prompts you, though, so the fact that pressing Play sends it is worth
+  knowing.
 - **The answer is cached for an hour**, in `S:/deki-gps-location.txt` beside the
   game's other storage. A second run inside that hour makes no request at all,
   which matters while you are testing and restarting repeatedly. Delete the file
