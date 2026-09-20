@@ -1,56 +1,47 @@
 # Deki GPS
 
-Documentation: https://dekiengine.github.io/deki-gps/ (components and properties, generated from the code)
+Docs: https://dekiengine.github.io/deki-gps/ (components and properties, generated from the code)
 
 GPS peripheral interface for the Deki Engine, with an NMEA-over-UART backend.
 
-Part of the [Deki Engine](https://github.com/dekiengine/deki-engine) package ecosystem.
+Part of [Deki Engine](https://github.com/dekiengine/deki-engine).
 
 ## Desktop backend and your IP address
 
 There is no GPS on a desktop machine, so the desktop backend asks
-[ipwho.is](https://ipwho.is) where the machine is. It answers from the address
-the request arrives from, which means the request itself is the disclosure.
+[ipwho.is](https://ipwho.is) where it is. The answer comes from the address the
+request arrives from, so the request itself is the disclosure.
 
-What that means in practice:
+In practice:
 
-- **It runs when you press Play**, and in a built game when the package starts.
-  Opening a project in the editor does not make the request: this setup is
-  registered for the Play phase precisely because it reaches the network.
-  Nothing prompts you, though, so the fact that pressing Play sends it is worth
-  knowing.
-- **The answer is cached for an hour**, in `S:/deki-gps-location.txt` beside the
-  game's other storage. A second run inside that hour makes no request at all,
-  which matters while you are testing and restarting repeatedly. Delete the file
-  to force a fresh lookup.
-- **Over HTTPS**, with no API key, and ipwho.is permits commercial use on that
-  free endpoint. Its published limit is 1,000 requests a day per address, which
-  is counted against the machine that asks, so your players never share a quota.
+- **It runs when you press Play**, and when the package starts in a built
+  game. Just opening a project does not send it. Nothing prompts you, so it is
+  worth knowing that Play does.
+- **Cached for an hour** in `S:/deki-gps-location.txt`. Restarting inside that
+  hour sends nothing. Delete the file to force a fresh lookup.
+- **HTTPS, no API key**, and ipwho.is allows commercial use on the free
+  endpoint. The limit is 1,000 requests a day per address, counted against the
+  machine that asks, so players never share a quota.
 - **Accuracy is city-level.** It is a stand-in so a GPS-driven scene does
   something on a desktop, not a position fix.
 
 Leave the package out of a desktop target if you would rather it never asked.
 Device builds use the NMEA-over-UART backend and make no network request at all.
 
-Before 0.16.0 this used ip-api.com over plain **HTTP**, because that service
-sells HTTPS as a paid feature. Its free tier also limited use to "a
-non-commercial purpose and in a non-commercial environment", which every
-developer shipping a game inherited from the engine without being told. Both
-problems are why it changed.
+Before 0.16.0 this used ip-api.com over plain **HTTP** (they sell HTTPS), and
+its free tier was non-commercial only, which every game shipping the engine
+inherited without being told. That is why it changed.
 
 ## Namespace
 
-This package's types live in `DekiGps`. Scene files store the qualified
-name, so a component is `DekiGps::SomeComponent` there, and code naming one
-needs the namespace:
+Types live in `DekiGps`. Scene files store the qualified name, and so does code:
 
 ```cpp
 using namespace DekiGps;
 obj->AddComponent<SomeComponent>();
 ```
 
-Scenes saved before 0.16.0 used bare names and still load: every component
-records what it used to be called, and a save writes the current name.
+Scenes saved before 0.16.0 used bare names and still load; saving writes the current one.
 
 ## Dependencies
 
@@ -59,10 +50,10 @@ records what it used to be called, and a save writes the current name.
 | `deki-http` | Deki package |
 | `deki-uart` | Deki package |
 
-## Installation
+## Install
 
-Install via the Package Manager inside the Deki Editor.
+Package Manager in the Deki Editor, or `DekiEditor --packages-add deki-gps <project>`.
 
 ## License
 
-Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for details.
+Apache 2.0. See [LICENSE](LICENSE).
