@@ -44,7 +44,7 @@ DEKI_PLUGIN_API const char* DekiPlugin_GetVersion(void)
     return "0.0.0-dev";
 #endif
 }
-DEKI_PLUGIN_API int  DekiPlugin_Init(void)             { DEKI_LOG_INFO("[deki-gps] DekiPlugin_Init"); return 0; }
+DEKI_PLUGIN_API int  DekiPlugin_Init(void)             { return 0; }
 DEKI_PLUGIN_API void DekiPlugin_Shutdown(void)
 {
     s_GPSRegistered = false;
@@ -61,8 +61,7 @@ DEKI_PLUGIN_API const Deki::ComponentMeta* DekiPlugin_GetComponentMeta(int index
 }
 DEKI_PLUGIN_API void DekiPlugin_RegisterComponents(void)
 {
-    int n = DekiGPS_EnsureRegistered();
-    DEKI_LOG_INFO("[deki-gps] ::DekiPlugin_RegisterComponents -> %d component(s)", n);
+    DekiGPS_EnsureRegistered();
 }
 
 
