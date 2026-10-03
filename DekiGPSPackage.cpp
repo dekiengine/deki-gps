@@ -48,6 +48,11 @@ DEKI_PLUGIN_API int  DekiPlugin_Init(void)             { return 0; }
 DEKI_PLUGIN_API void DekiPlugin_Shutdown(void)
 {
     s_GPSRegistered = false;
+    // Stop the driver first: the desktop one asks a web service for the
+    // location on its own thread, which can take up to 30 s, and returning
+    // into this DLL's code after it was unloaded crashed the editor.
+    if (IDekiGPS* driver = DekiGPS::GetCurrent())
+        driver->Shutdown();
     // Null the provider so a hot-reload doesn't leave a dangling pointer to a
     // driver instance whose .text is about to be unloaded with the DLL. The
     // driver itself (DesktopGPSComponent's s_Driver) is intentionally leaked,
