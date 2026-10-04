@@ -16,7 +16,7 @@ namespace DekiGps
 class DekiGPS
 {
 public:
-    static void      SetCurrent(IDekiGPS* gps);
+    static void SetCurrent(IDekiGPS* gps);
     static IDekiGPS* GetCurrent();
 
 private:

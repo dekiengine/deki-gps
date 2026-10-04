@@ -12,14 +12,16 @@ static NMEAGPS* s_NEO6MDriver = nullptr;
 void NEO6MGPSComponent::Setup(SetupCallback onComplete)
 {
     if (!s_NEO6MDriver)
+    {
         s_NEO6MDriver = new NMEAGPS();
+    }
 
     Deki::PackageConfig cfg;
     cfg.packageId = "gps";
-    cfg.enabled  = true;
+    cfg.enabled = true;
     cfg.pins["TX"] = txPin;
     cfg.pins["RX"] = rxPin;
-    cfg.settings["baudRate"]      = std::to_string(baudRate);
+    cfg.settings["baudRate"] = std::to_string(baudRate);
     cfg.settings["uartPort"] = std::to_string(uartPort);
 
     s_NEO6MDriver->Configure(cfg);
@@ -35,7 +37,10 @@ void NEO6MGPSComponent::Setup(SetupCallback onComplete)
                        (int)uartPort, (int)txPin, (int)rxPin, (int)baudRate);
     }
 
-    if (onComplete) onComplete(success);
+    if (onComplete)
+    {
+        onComplete(success);
+    }
 }
 
 }  // namespace DekiGps

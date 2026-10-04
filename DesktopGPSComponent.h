@@ -22,13 +22,11 @@ DEKI_FORMER_NAME("DesktopGPSComponent")
 class DesktopGPSComponent : public Deki::SetupComponent
 {
 public:
-
     DesktopGPSComponent() = default;
     virtual ~DesktopGPSComponent() = default;
 
-    void        Setup(SetupCallback onComplete) override;
+    void Setup(SetupCallback onComplete) override;
     const char* GetSetupName() const override { return "Desktop GPS"; }
 };
 
 }  // namespace DekiGps
-

@@ -11,27 +11,27 @@ namespace DekiGps
 
 namespace
 {
-    constexpr float kFixStaleAfterSeconds = 5.0f;
+constexpr float kFixStaleAfterSeconds = 5.0f;
 
-    // Hinnant's days_from_civil — converts a civil (Y, M, D) UTC date to days
-    // since 1970-01-01. Pure arithmetic, no platform clock dependencies.
-    int64_t DaysFromCivilUTC(int y, unsigned m, unsigned d)
-    {
-        y -= (m <= 2);
-        const int era = (y >= 0 ? y : y - 399) / 400;
-        const unsigned yoe = (unsigned)(y - era * 400);
-        const unsigned doy = (153 * (m > 2 ? m - 3 : m + 9) + 2) / 5 + d - 1;
-        const unsigned doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
-        return (int64_t)era * 146097 + (int64_t)doe - 719468;
-    }
+// Hinnant's days_from_civil — converts a civil (Y, M, D) UTC date to days
+// since 1970-01-01. Pure arithmetic, no platform clock dependencies.
+int64_t DaysFromCivilUTC(int y, unsigned m, unsigned d)
+{
+    y -= (m <= 2);
+    const int era = (y >= 0 ? y : y - 399) / 400;
+    const unsigned yoe = (unsigned)(y - era * 400);
+    const unsigned doy = (153 * (m > 2 ? m - 3 : m + 9) + 2) / 5 + d - 1;
+    const unsigned doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
+    return (int64_t)era * 146097 + (int64_t)doe - 719468;
 }
+}  // namespace
 
 void NMEAGPS::Configure(const Deki::PackageConfig& config)
 {
-    m_PinTX     = config.GetPin("TX", -1);
-    m_PinRX     = config.GetPin("RX", -1);
-    m_Baud      = (uint32_t)config.GetInt("baudRate", 9600);
-    m_UartPort  = config.GetInt("uartPort", 1);
+    m_PinTX = config.GetPin("TX", -1);
+    m_PinRX = config.GetPin("RX", -1);
+    m_Baud = (uint32_t)config.GetInt("baudRate", 9600);
+    m_UartPort = config.GetInt("uartPort", 1);
 }
 
 bool NMEAGPS::Initialize()
@@ -49,10 +49,10 @@ bool NMEAGPS::Initialize()
 
     Deki::PackageConfig uartCfg;
     uartCfg.packageId = "uart";
-    uartCfg.enabled  = true;
+    uartCfg.enabled = true;
     uartCfg.pins["TX"] = m_PinTX;
     uartCfg.pins["RX"] = m_PinRX;
-    uartCfg.settings["baudRate"]      = std::to_string(m_Baud);
+    uartCfg.settings["baudRate"] = std::to_string(m_Baud);
     uartCfg.settings["uartPort"] = std::to_string(m_UartPort);
 
     m_UART->Configure(uartCfg);
@@ -81,17 +81,26 @@ void NMEAGPS::Shutdown()
 
 void NMEAGPS::Update(float deltaTime)
 {
-    if (m_State != Deki::PackageState::Running) return;
+    if (m_State != Deki::PackageState::Running)
+    {
+        return;
+    }
 
     float t = m_SecondsSinceFix.load(std::memory_order_relaxed);
-    if (t < 1e8f) m_SecondsSinceFix.store(t + deltaTime, std::memory_order_relaxed);
+    if (t < 1e8f)
+    {
+        m_SecondsSinceFix.store(t + deltaTime, std::memory_order_relaxed);
+    }
 
     PumpUart();
 }
 
 void NMEAGPS::PumpUart()
 {
-    if (!m_UART) return;
+    if (!m_UART)
+    {
+        return;
+    }
 
     uint8_t buf[128];
     int n = m_UART->Read(buf, sizeof(buf), 0);
@@ -113,29 +122,46 @@ void NMEAGPS::PumpUart()
 
 bool NMEAGPS::ChecksumValid(const char* line)
 {
-    if (!line || line[0] != '$') return false;
+    if (!line || line[0] != '$')
+    {
+        return false;
+    }
     const char* star = std::strchr(line, '*');
-    if (!star) return false;
+    if (!star)
+    {
+        return false;
+    }
     uint8_t cs = 0;
-    for (const char* p = line + 1; p < star; ++p) cs ^= (uint8_t)*p;
+    for (const char* p = line + 1; p < star; ++p)
+    {
+        cs ^= (uint8_t)*p;
+    }
     unsigned want = 0;
-    if (std::sscanf(star + 1, "%2x", &want) != 1) return false;
+    if (std::sscanf(star + 1, "%2x", &want) != 1)
+    {
+        return false;
+    }
     return (uint8_t)want == cs;
 }
 
 double NMEAGPS::NMEACoordToDeg(const char* coord, char hemi)
 {
-    if (!coord || !*coord) return 0.0;
+    if (!coord || !*coord)
+    {
+        return 0.0;
+    }
     double raw = std::atof(coord);
     double deg = std::floor(raw / 100.0);
     double min = raw - deg * 100.0;
     double val = deg + min / 60.0;
-    if (hemi == 'S' || hemi == 'W') val = -val;
+    if (hemi == 'S' || hemi == 'W')
+    {
+        val = -val;
+    }
     return val;
 }
 
-bool NMEAGPS::ParseRMC(const char* line, double& lat, double& lon,
-                       int64_t& utc_epoch, bool& utc_valid) const
+bool NMEAGPS::ParseRMC(const char* line, double& lat, double& lon, int64_t& utc_epoch, bool& utc_valid) const
 {
     // $GPRMC,hhmmss.sss,status,lat,N/S,lon,E/W,speed,course,ddmmyy,...
     char buf[96];
@@ -148,8 +174,14 @@ bool NMEAGPS::ParseRMC(const char* line, double& lat, double& lon,
     {
         fields[n++] = tok;
     }
-    if (n < 7) return false;
-    if (!fields[2] || fields[2][0] != 'A') return false;     // status A = valid
+    if (n < 7)
+    {
+        return false;
+    }
+    if (!fields[2] || fields[2][0] != 'A')
+    {
+        return false;  // status A = valid
+    }
 
     lat = NMEACoordToDeg(fields[3], fields[4] ? fields[4][0] : 'N');
     lon = NMEACoordToDeg(fields[5], fields[6] ? fields[6][0] : 'E');
@@ -167,12 +199,11 @@ bool NMEAGPS::ParseRMC(const char* line, double& lat, double& lon,
         int dd = two(d);
         int mo = two(d + 2);
         int yy = two(d + 4);
-        if (hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59 && ss >= 0 && ss <= 60 &&
-            dd >= 1 && dd <= 31 && mo >= 1 && mo <= 12)
+        if (hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59 && ss >= 0 && ss <= 60 && dd >= 1 && dd <= 31 && mo >= 1 &&
+            mo <= 12)
         {
             int year = 2000 + yy;
-            utc_epoch = DaysFromCivilUTC(year, (unsigned)mo, (unsigned)dd) * 86400
-                      + hh * 3600 + mm * 60 + ss;
+            utc_epoch = DaysFromCivilUTC(year, (unsigned)mo, (unsigned)dd) * 86400 + hh * 3600 + mm * 60 + ss;
             utc_valid = true;
         }
     }
@@ -181,7 +212,10 @@ bool NMEAGPS::ParseRMC(const char* line, double& lat, double& lon,
 
 void NMEAGPS::HandleLine(const char* line)
 {
-    if (!ChecksumValid(line)) return;
+    if (!ChecksumValid(line))
+    {
+        return;
+    }
 
     if (std::strncmp(line, "$GPRMC", 6) == 0 || std::strncmp(line, "$GNRMC", 6) == 0)
     {
@@ -205,7 +239,7 @@ void NMEAGPS::HandleLine(const char* line)
 DekiGPSLocation NMEAGPS::Current() const
 {
     DekiGPSLocation loc;
-    loc.latitude  = m_LastLat.load(std::memory_order_relaxed);
+    loc.latitude = m_LastLat.load(std::memory_order_relaxed);
     loc.longitude = m_LastLon.load(std::memory_order_relaxed);
     return loc;
 }

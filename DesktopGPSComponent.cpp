@@ -11,11 +11,13 @@ static DesktopGPS* s_DesktopDriver = nullptr;
 void DesktopGPSComponent::Setup(SetupCallback onComplete)
 {
     if (!s_DesktopDriver)
+    {
         s_DesktopDriver = new DesktopGPS();
+    }
 
     Deki::PackageConfig cfg;
     cfg.packageId = "gps";
-    cfg.enabled  = true;
+    cfg.enabled = true;
 
     s_DesktopDriver->Configure(cfg);
 
@@ -29,7 +31,10 @@ void DesktopGPSComponent::Setup(SetupCallback onComplete)
         DEKI_LOG_ERROR("DesktopGPSComponent: Initialize() failed");
     }
 
-    if (onComplete) onComplete(success);
+    if (onComplete)
+    {
+        onComplete(success);
+    }
 }
 
 // Play, not project open. This asks a third party where the machine is, so
