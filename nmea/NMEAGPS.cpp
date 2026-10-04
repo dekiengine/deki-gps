@@ -161,7 +161,7 @@ double NMEAGPS::NMEACoordToDeg(const char* coord, char hemi)
     return val;
 }
 
-bool NMEAGPS::ParseRMC(const char* line, double& lat, double& lon, int64_t& utc_epoch, bool& utc_valid) const
+bool NMEAGPS::ParseRMC(const char* line, double& lat, double& lon, int64_t& utcEpoch, bool& utcValid) const
 {
     // $GPRMC,hhmmss.sss,status,lat,N/S,lon,E/W,speed,course,ddmmyy,...
     char buf[96];
@@ -186,8 +186,8 @@ bool NMEAGPS::ParseRMC(const char* line, double& lat, double& lon, int64_t& utc_
     lat = NMEACoordToDeg(fields[3], fields[4] ? fields[4][0] : 'N');
     lon = NMEACoordToDeg(fields[5], fields[6] ? fields[6][0] : 'E');
 
-    utc_valid = false;
-    utc_epoch = 0;
+    utcValid = false;
+    utcEpoch = 0;
     if (n >= 10 && fields[1] && fields[9] && std::strlen(fields[1]) >= 6 && std::strlen(fields[9]) == 6)
     {
         auto two = [](const char* p) { return (p[0] - '0') * 10 + (p[1] - '0'); };
@@ -203,8 +203,8 @@ bool NMEAGPS::ParseRMC(const char* line, double& lat, double& lon, int64_t& utc_
             mo <= 12)
         {
             int year = 2000 + yy;
-            utc_epoch = DaysFromCivilUTC(year, (unsigned)mo, (unsigned)dd) * 86400 + hh * 3600 + mm * 60 + ss;
-            utc_valid = true;
+            utcEpoch = DaysFromCivilUTC(year, (unsigned)mo, (unsigned)dd) * 86400 + hh * 3600 + mm * 60 + ss;
+            utcValid = true;
         }
     }
     return true;
@@ -220,16 +220,16 @@ void NMEAGPS::HandleLine(const char* line)
     if (std::strncmp(line, "$GPRMC", 6) == 0 || std::strncmp(line, "$GNRMC", 6) == 0)
     {
         double lat, lon;
-        int64_t utc_epoch;
-        bool utc_valid;
-        if (ParseRMC(line, lat, lon, utc_epoch, utc_valid))
+        int64_t utcEpoch;
+        bool utcValid;
+        if (ParseRMC(line, lat, lon, utcEpoch, utcValid))
         {
             m_LastLat.store(lat, std::memory_order_relaxed);
             m_LastLon.store(lon, std::memory_order_relaxed);
             m_SecondsSinceFix.store(0.0f, std::memory_order_relaxed);
-            if (utc_valid)
+            if (utcValid)
             {
-                m_UTCEpoch.store(utc_epoch, std::memory_order_relaxed);
+                m_UTCEpoch.store(utcEpoch, std::memory_order_relaxed);
                 m_HasUTC.store(true, std::memory_order_relaxed);
             }
         }

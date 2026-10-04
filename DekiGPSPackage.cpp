@@ -7,9 +7,9 @@
 #include <deki/LogSystem.h>
 #include "DekiGPS.h"
 
-extern void DekiGPS_RegisterComponents();
-extern int DekiGPS_GetAutoComponentCount();
-extern const Deki::ComponentMeta* DekiGPS_GetAutoComponentMeta(int index);
+extern void DekiGPSRegisterComponents();
+extern int DekiGPSGetAutoComponentCount();
+extern const Deki::ComponentMeta* DekiGPSGetAutoComponentMeta(int index);
 
 namespace DekiGps
 {
@@ -24,22 +24,22 @@ using namespace DekiGps;
 
 extern "C"
 {
-    DEKI_GPS_API int DekiGPS_EnsureRegistered(void)
+    DEKI_GPS_API int DekiGPSEnsureRegistered(void)
     {
         if (s_GPSRegistered)
         {
-            return ::DekiGPS_GetAutoComponentCount();
+            return ::DekiGPSGetAutoComponentCount();
         }
         s_GPSRegistered = true;
-        ::DekiGPS_RegisterComponents();
-        return ::DekiGPS_GetAutoComponentCount();
+        ::DekiGPSRegisterComponents();
+        return ::DekiGPSGetAutoComponentCount();
     }
 
-    DEKI_PLUGIN_API const char* DekiPlugin_GetName(void)
+    DEKI_PLUGIN_API const char* DekiPluginGetName(void)
     {
         return "Deki GPS Package";
     }
-    DEKI_PLUGIN_API const char* DekiPlugin_GetVersion(void)
+    DEKI_PLUGIN_API const char* DekiPluginGetVersion(void)
     {
 #ifdef DEKI_PACKAGE_VERSION
         return DEKI_PACKAGE_VERSION;
@@ -47,11 +47,11 @@ extern "C"
         return "0.0.0-dev";
 #endif
     }
-    DEKI_PLUGIN_API int DekiPlugin_Init(void)
+    DEKI_PLUGIN_API int DekiPluginInit(void)
     {
         return 0;
     }
-    DEKI_PLUGIN_API void DekiPlugin_Shutdown(void)
+    DEKI_PLUGIN_API void DekiPluginShutdown(void)
     {
         s_GPSRegistered = false;
         // Stop the driver first: the desktop one asks a web service for the
@@ -67,17 +67,17 @@ extern "C"
         // matching the embedded NEO6MGPSComponent pattern.
         DekiGPS::SetCurrent(nullptr);
     }
-    DEKI_PLUGIN_API int DekiPlugin_GetComponentCount(void)
+    DEKI_PLUGIN_API int DekiPluginGetComponentCount(void)
     {
-        return ::DekiGPS_GetAutoComponentCount();
+        return ::DekiGPSGetAutoComponentCount();
     }
-    DEKI_PLUGIN_API const Deki::ComponentMeta* DekiPlugin_GetComponentMeta(int index)
+    DEKI_PLUGIN_API const Deki::ComponentMeta* DekiPluginGetComponentMeta(int index)
     {
-        return ::DekiGPS_GetAutoComponentMeta(index);
+        return ::DekiGPSGetAutoComponentMeta(index);
     }
-    DEKI_PLUGIN_API void DekiPlugin_RegisterComponents(void)
+    DEKI_PLUGIN_API void DekiPluginRegisterComponents(void)
     {
-        DekiGPS_EnsureRegistered();
+        DekiGPSEnsureRegistered();
     }
 
 }  // extern "C"

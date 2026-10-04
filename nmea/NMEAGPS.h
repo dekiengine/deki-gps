@@ -50,7 +50,7 @@ private:
 
     void PumpUart();
     void HandleLine(const char* line);
-    bool ParseRMC(const char* line, double& lat, double& lon, int64_t& utc_epoch, bool& utc_valid) const;
+    bool ParseRMC(const char* line, double& lat, double& lon, int64_t& utcEpoch, bool& utcValid) const;
     static bool ChecksumValid(const char* line);
     static double NMEACoordToDeg(const char* coord, char hemi);
 };

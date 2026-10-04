@@ -135,7 +135,7 @@ bool ReadCache(int64_t now, double& lat, double& lon)
         return false;
     }
 
-    Deki::IFileSystem::FileHandle f = fs->OpenFile(kCachePath, Deki::IFileSystem::OpenMode::READ_TEXT);
+    Deki::IFileSystem::FileHandle f = fs->OpenFile(kCachePath, Deki::IFileSystem::OpenMode::ReadText);
     if (!f)
     {
         return false;
@@ -190,7 +190,7 @@ void WriteCache(int64_t now, double lat, double lon)
         return;
     }
 
-    Deki::IFileSystem::FileHandle f = fs->OpenFile(kCachePath, Deki::IFileSystem::OpenMode::WRITE_TEXT);
+    Deki::IFileSystem::FileHandle f = fs->OpenFile(kCachePath, Deki::IFileSystem::OpenMode::WriteText);
     if (!f)
     {
         return;
