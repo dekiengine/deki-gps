@@ -13,8 +13,8 @@ namespace
 {
 constexpr float kFixStaleAfterSeconds = 5.0f;
 
-// Hinnant's days_from_civil — converts a civil (Y, M, D) UTC date to days
-// since 1970-01-01. Pure arithmetic, no platform clock dependencies.
+// Howard Hinnant's days_from_civil: days from 1970-01-01 to a UTC date.
+// Plain arithmetic, so it needs no platform clock.
 int64_t DaysFromCivilUTC(int y, unsigned m, unsigned d)
 {
     y -= (m <= 2);

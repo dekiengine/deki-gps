@@ -5,14 +5,12 @@
 namespace DekiGps
 {
 
-/**
- * @brief Active-driver registry for GPS.
- *
- * A SetupComponent (NEO6MGPSComponent on embedded, DesktopGPSComponent on
- * desktop / editor) registers its IDekiGPS driver via SetCurrent() during
- * Setup(). Game / editor code reads the current location via
- * GetCurrent()->Current() / HasLiveFix().
- */
+/// Holds the active GPS driver.
+///
+/// A SetupComponent (NEO6MGPSComponent on a device, DesktopGPSComponent on
+/// desktop and in the editor) registers its driver with SetCurrent() during
+/// Setup(). Game and editor code read the location through
+/// GetCurrent()->Current() and HasLiveFix().
 class DekiGPS
 {
 public:

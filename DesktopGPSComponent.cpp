@@ -37,9 +37,9 @@ void DesktopGPSComponent::Setup(SetupCallback onComplete)
     }
 }
 
-// Play, not project open. This asks a third party where the machine is, so
-// it waits for the user to press Play rather than firing every time a
-// project is opened. The answer is cached for an hour either way.
+// Runs on Play, not on project open: it asks a third party where the machine
+// is, so it waits until the user presses Play. The answer is cached for an
+// hour.
 DEKI_REGISTER_PLAY_AUTO_SETUP(DesktopGPSComponent);
 
 }  // namespace DekiGps

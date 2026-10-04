@@ -1,7 +1,4 @@
-/**
- * @file DekiGPSPackage.cpp
- * @brief Package entry point for deki-gps
- */
+// Package entry point for deki-gps.
 #include "DekiGPSPackage.h"
 #include <deki/interop/Plugin.h>
 #include <deki/LogSystem.h>
@@ -54,17 +51,16 @@ extern "C"
     DEKI_PLUGIN_API void DekiPluginShutdown(void)
     {
         s_GPSRegistered = false;
-        // Stop the driver first: the desktop one asks a web service for the
-        // location on its own thread, which can take up to 30 s, and returning
-        // into this DLL's code after it was unloaded crashed the editor.
+        // Stop the driver before the DLL unloads: the desktop one asks a web
+        // service for the location on its own thread, which can take up to
+        // 30 s, and that thread must not return into unloaded code.
         if (IDekiGPS* driver = DekiGPS::GetCurrent())
         {
             driver->Shutdown();
         }
-        // Null the provider so a hot-reload doesn't leave a dangling pointer to a
-        // driver instance whose .text is about to be unloaded with the DLL. The
-        // driver itself (DesktopGPSComponent's s_Driver) is intentionally leaked,
-        // matching the embedded NEO6MGPSComponent pattern.
+        // Clear the provider so a hot reload leaves no pointer to a driver
+        // whose code unloads with the DLL. The driver object itself is leaked
+        // on purpose, as NEO6MGPSComponent does.
         DekiGPS::SetCurrent(nullptr);
     }
     DEKI_PLUGIN_API int DekiPluginGetComponentCount(void)

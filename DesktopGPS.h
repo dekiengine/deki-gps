@@ -9,18 +9,16 @@
 namespace DekiGps
 {
 
-/**
- * GPS driver used on desktop where there is no GPS chip. Asks an HTTP IP
- * geolocation service (ip-api.com) for an approximate location once at
- * startup and exposes that as the live fix. City-level accuracy.
- *
- * The lookup runs on a background thread so the SetupComponent's Setup() is
- * not blocked by network latency. HasLiveFix() returns false until the
- * response has been parsed; it stays false on any failure (no fallback).
- *
- * Network is performed via DekiHttp::GetCurrent(), which is set by
- * the deki-http package before deki-gps loads (load order is alphabetical).
- */
+/// GPS driver for desktop, where there is no GPS chip. Asks an IP
+/// geolocation service (ipwho.is) for an approximate, city-level location
+/// once at startup and reports it as the live fix.
+///
+/// The lookup runs on a background thread so Setup() does not wait on the
+/// network. HasLiveFix() is false until the response is parsed, and stays
+/// false if the lookup fails.
+///
+/// Requests go through DekiHttp::GetCurrent(), which the deki-http package
+/// sets before deki-gps loads (packages load in alphabetical order).
 class DesktopGPS : public IDekiGPS
 {
 public:

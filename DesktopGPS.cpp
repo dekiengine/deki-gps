@@ -57,8 +57,8 @@ int64_t DesktopGPS::CurrentUTCEpochSeconds() const
 
 bool DesktopGPS::HasUTC() const
 {
-    // The desktop's system clock is the UTC source — std::time() is always UTC
-    // regardless of the OS timezone setting. Available for the lifetime of the process.
+    // The system clock is the UTC source: std::time() is UTC whatever the OS
+    // time zone.
     return true;
 }
 
@@ -92,8 +92,8 @@ bool ParseDoubleAfter(const std::string& body, const char* key, double& out)
     return true;
 }
 
-// ipwho.is answers application errors with HTTP 200 and "success": false,
-// so the status code says nothing and this is the only check that counts.
+// ipwho.is answers errors with HTTP 200 and "success": false, so this field
+// is the only reliable check.
 bool ResponseIsSuccess(const std::string& body)
 {
     size_t pos = body.find("\"success\"");
@@ -113,20 +113,18 @@ bool ResponseIsSuccess(const std::string& body)
     return std::memcmp(body.data() + pos, "true", 4) == 0;
 }
 
-// Where the last fix is remembered between runs. S:/ is the writable
-// storage partition on every platform (./storage/ beside the executable on
-// desktop), so this follows the game's data rather than the machine's.
+// Where the last fix is kept between runs. S:/ is the writable storage
+// partition on every platform (./storage/ beside the executable on desktop),
+// so the cache belongs to the game, not the machine.
 const char* const kCachePath = "S:/deki-gps-location.txt";
 
-// One hour. The answer is city-level and derived from an IP address, so it
-// does not move meaningfully within that, and the lookup happens once per
-// process: without a cache that survives the process, every run of a game
-// being tested is another request and another disclosure.
+// One hour. A city-level answer from an IP address does not change within
+// that, and the cache outlives the process so that each test run of a game
+// is not another request to a third party.
 constexpr int64_t kCacheSeconds = 60 * 60;
 
-// "<unix seconds> <lat> <lon>". Three numbers in a line, rather than JSON,
-// because nothing else reads it and a parse failure must be as cheap as a
-// cache miss.
+// "<unix seconds> <lat> <lon>" on one line. Nothing else reads it, and a
+// parse failure costs no more than a cache miss.
 bool ReadCache(int64_t now, double& lat, double& lon)
 {
     Deki::IFileSystem* fs = Deki::FileSystem::GetFileSystemForPath(kCachePath);
@@ -158,7 +156,7 @@ bool ReadCache(int64_t now, double& lat, double& lon)
     }
 
     // A stamp in the future means the clock moved backwards since it was
-    // written; treat that as a miss rather than trusting it forever.
+    // written; treat it as a miss, or it would be trusted forever.
     if (stamp <= 0 || now < stamp || now - stamp >= kCacheSeconds)
     {
         return false;
@@ -210,10 +208,9 @@ void DesktopGPS::FetchLocation()
 {
     const int64_t now = static_cast<int64_t>(std::time(nullptr));
 
-    // The request is the disclosure: the service reads the location off the
-    // address the request arrives from. So the cheapest privacy measure is to
-    // send fewer of them, and an hour-old answer is as good as a new one at
-    // city-level accuracy.
+    // Every request tells the service where the machine is, so send as few as
+    // possible: at city-level accuracy an hour-old answer is as good as a new
+    // one.
     double lat = 0.0;
     double lon = 0.0;
     if (ReadCache(now, lat, lon))
@@ -227,16 +224,13 @@ void DesktopGPS::FetchLocation()
 
     DEKI_LOG_INFO("[deki-gps] DesktopGPS: querying ipwho.is for approximate location");
 
-    // Over HTTPS, and ipwho.is permits commercial use on its keyless free tier,
-    // which matters because games built with this engine are sold. The service
-    // this replaced was plain HTTP with no free HTTPS, and its terms limited
-    // the free endpoint to "a non-commercial purpose and in a non-commercial
-    // environment" — a restriction every developer shipping a game inherited
-    // without being told.
+    // ipwho.is is used because it serves HTTPS and allows commercial use on
+    // its keyless free tier, and games built with this engine are sold. Keep
+    // both when choosing another service.
     //
-    // The request still tells a third party the machine's address, and it runs
-    // from Initialize(), so having this package active in a desktop build is
-    // enough to make it happen. That is documented in the package README.
+    // The request tells a third party the machine's address, and it runs from
+    // Initialize(), so having this package active in a desktop build is
+    // enough to send it. The package README says so.
     std::string body = DekiHttp::FetchUrl("https://ipwho.is/");
 
     if (m_Cancel.load() || body.empty())

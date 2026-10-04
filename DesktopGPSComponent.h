@@ -7,14 +7,11 @@
 namespace DekiGps
 {
 
-/**
- * @brief Editor / desktop SetupComponent that registers a DesktopGPS with
- * DekiGPS. Mirrors NEO6MGPSComponent (embedded) — same SetupComponent
- * shape, no editable hardware properties because the desktop driver has no
- * pins/UART config.
- *
- * Auto-fired by SetupComponent::RunEditorAutoSetups() after package load.
- */
+/// Desktop and editor counterpart of NEO6MGPSComponent: registers a
+/// DesktopGPS with DekiGPS. It has no properties because the desktop driver
+/// has no pins or UART to set.
+///
+/// Run automatically when Play starts.
 DEKI_CATEGORY("System")
 DEKI_DISPLAY_NAME("Desktop GPS")
 DEKI_DESCRIPTION("Stands in for the GPS receiver on desktop, so location works without hardware.")
