@@ -15,7 +15,6 @@ namespace DekiGps
 DEKI_CATEGORY("System")
 DEKI_DISPLAY_NAME("Desktop GPS")
 DEKI_DESCRIPTION("Stands in for the GPS receiver on desktop, so location works without hardware.")
-DEKI_FORMER_NAME("DesktopGPSComponent")
 class DesktopGPSComponent : public Deki::SetupComponent
 {
 public:

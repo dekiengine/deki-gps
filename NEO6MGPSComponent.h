@@ -15,7 +15,6 @@ namespace DekiGps
 DEKI_CATEGORY("Sensors")
 DEKI_DISPLAY_NAME("NEO-6M GPS")
 DEKI_DESCRIPTION("Reads location from a u-blox NEO-6M GPS over UART.")
-DEKI_FORMER_NAME("NEO6MGPSComponent")
 class NEO6MGPSComponent : public Deki::SetupComponent
 {
 public:

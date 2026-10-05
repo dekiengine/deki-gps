@@ -41,8 +41,6 @@ using namespace DekiGps;
 obj->AddComponent<SomeComponent>();
 ```
 
-Scenes saved before 0.16.0 used bare names and still load; saving writes the current one.
-
 ## Dependencies
 
 | Dependency | Type |
