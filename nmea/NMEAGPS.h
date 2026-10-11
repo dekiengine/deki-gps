@@ -63,6 +63,7 @@ private:
     mutable std::atomic<bool> m_HasUTC{ false };
 
     std::atomic<uint32_t> m_Sentences{ 0 };
+    std::atomic<uint32_t> m_Bytes{ 0 };
     std::atomic<int> m_SatellitesUsed{ -1 };
     std::atomic<bool> m_HasAltitude{ false };
     std::atomic<double> m_Altitude{ 0.0 };

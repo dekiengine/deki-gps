@@ -20,6 +20,10 @@ struct DekiGPSStatus
     // wire: wrong pins, wrong speed, or the module is not powered.
     uint32_t sentences = 0;
 
+    // Bytes read from the receiver, valid or not. Bytes but no sentences is a
+    // wrong speed; no bytes at all, a wrong pin or a receiver without power.
+    uint32_t bytes = 0;
+
     // Satellites the receiver can see, over every constellation it reports,
     // and how many of them it is using for the fix. -1 until reported.
     int satellitesInView = -1;

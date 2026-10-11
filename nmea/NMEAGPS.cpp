@@ -179,6 +179,10 @@ void NMEAGPS::PumpUart()
 
     uint8_t buf[128];
     int n = m_UART->Read(buf, sizeof(buf), 0);
+    if (n > 0)
+    {
+        m_Bytes.fetch_add(static_cast<uint32_t>(n), std::memory_order_relaxed);
+    }
     for (int i = 0; i < n; ++i)
     {
         char c = (char)buf[i];
@@ -384,6 +388,7 @@ DekiGPSStatus NMEAGPS::Status() const
 {
     DekiGPSStatus status;
     status.sentences = m_Sentences.load(std::memory_order_relaxed);
+    status.bytes = m_Bytes.load(std::memory_order_relaxed);
     status.satellitesInView = m_SatellitesInView.load(std::memory_order_relaxed);
     status.satellitesUsed = m_SatellitesUsed.load(std::memory_order_relaxed);
     status.hasAltitude = m_HasAltitude.load(std::memory_order_relaxed);

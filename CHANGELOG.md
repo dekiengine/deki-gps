@@ -20,6 +20,8 @@ alongside one that has them.
   ships with more than one kind of module (the LilyGO T-Deck Plus: L76K or
   u-blox M10).
 - Reads $--GGA and $--GSV besides $--RMC, from any talker.
+- `DekiGPSStatus::bytes`: bytes read from the receiver, valid or not. With
+  no sentences, bytes mean a wrong speed; none, a wrong pin or no power.
 
 ### Fixed
 - **A device never read its GPS.** Nothing called the NMEA driver's update,
