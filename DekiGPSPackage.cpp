@@ -3,6 +3,7 @@
 #include <deki/interop/Plugin.h>
 #include <deki/LogSystem.h>
 #include "DekiGPS.h"
+#include "NEO6MGPSComponent.h"
 
 extern void DekiGPSRegisterComponents();
 extern int DekiGPSGetAutoComponentCount();
@@ -51,6 +52,7 @@ extern "C"
     DEKI_PLUGIN_API void DekiPluginShutdown(void)
     {
         s_GPSRegistered = false;
+        NEO6MGPSComponent::StopUpdates();
         // Stop the driver before the DLL unloads: the desktop one asks a web
         // service for the location on its own thread, which can take up to
         // 30 s, and that thread must not return into unloaded code.

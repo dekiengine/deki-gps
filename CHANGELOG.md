@@ -8,6 +8,27 @@ breaking change bumps the minor across the editor, the engine and every
 package together, so a package with no changes of its own is still released
 alongside one that has them.
 
+## Unreleased
+
+### Added
+- `IDekiGPS::Status()`: sentences read, satellites in view (all
+  constellations) and in use, altitude, and the serial speed. Indoors, where
+  there may never be a fix, it shows whether the receiver is talking and how
+  the search is going.
+- `baudRate` 0 on NEO6MGPSComponent finds the speed: 9600, 38400, 115200,
+  57600 and 4800 are tried until a valid sentence arrives. For a board that
+  ships with more than one kind of module (the LilyGO T-Deck Plus: L76K or
+  u-blox M10).
+- Reads $--GGA and $--GSV besides $--RMC, from any talker.
+
+### Fixed
+- **A device never read its GPS.** Nothing called the NMEA driver's update,
+  so its UART was never read and there was never a fix. NEO6MGPSComponent now
+  updates it every frame.
+- A position sentence with an empty field (no course, as when standing
+  still) shifted every field after it, losing the date and time: fields were
+  split with strtok, which skips empty ones.
+
 ## 0.18.0
 
 ### Changed

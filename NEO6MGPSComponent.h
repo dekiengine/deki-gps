@@ -33,8 +33,10 @@ public:
     // NEO-6M defaults to 9600. A u-blox M8 can be configured up to 115200.
     DEKI_EXPORT
     DEKI_TOOLTIP("Serial speed, which must match how the module is configured. NEO-6M ships at 9600; a module "
-                 "reconfigured to 38400 and left at 9600 here reads as garbage rather than silence.")
-    DEKI_RANGE(2400, 921600)
+                 "reconfigured to 38400 and left at 9600 here reads as garbage rather than silence. 0 finds it: "
+                 "9600, 38400, 115200, 57600 and 4800 are tried until valid NMEA arrives, for a board that ships "
+                 "with more than one kind of module.")
+    DEKI_RANGE(0, 921600)
     int32_t baudRate = 9600;
 
     DEKI_EXPORT
@@ -47,6 +49,10 @@ public:
     virtual ~NEO6MGPSComponent() = default;
 
     void Setup(SetupCallback onComplete) override;
+
+    /// Stops reading the module every frame. Called before the package's DLL
+    /// unloads, so the engine does not call into unloaded code.
+    static void StopUpdates();
     const char* GetSetupName() const override { return "NEO-6M GPS"; }
 };
 
