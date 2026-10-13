@@ -4,7 +4,9 @@
 #include <deki/PackageConfig.h>
 #include <atomic>
 #include <string>
+#if !defined(ESP_PLATFORM)
 #include <thread>
+#endif
 
 namespace DekiGps
 {
@@ -19,6 +21,10 @@ namespace DekiGps
 ///
 /// Requests go through DekiHttp::GetCurrent(), which the deki-http package
 /// sets before deki-gps loads (packages load in alphabetical order).
+///
+/// Under ESP-IDF there is no desktop to ask from: Initialize() fails and no
+/// thread is made. The driver is still compiled there, because its component
+/// is reflected, but nothing on a device starts it.
 class DesktopGPS : public IDekiGPS
 {
 public:
@@ -50,7 +56,9 @@ private:
     std::atomic<bool> m_HasFix{ false };
     std::atomic<bool> m_Cancel{ false };
 
+#if !defined(ESP_PLATFORM)
     std::thread m_Thread;
+#endif
 };
 
 }  // namespace DekiGps

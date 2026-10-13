@@ -21,19 +21,27 @@ bool DesktopGPS::Initialize()
     m_HasFix.store(false);
     m_LastError.clear();
 
+#if defined(ESP_PLATFORM)
+    m_LastError = "IP geolocation runs on a desktop only";
+    m_State = Deki::PackageState::Error;
+    return false;
+#else
     m_Thread = std::thread(&DesktopGPS::FetchLocation, this);
 
     m_State = Deki::PackageState::Initialized;
     return true;
+#endif
 }
 
 void DesktopGPS::Shutdown()
 {
     m_Cancel.store(true);
+#if !defined(ESP_PLATFORM)
     if (m_Thread.joinable())
     {
         m_Thread.join();
     }
+#endif
     m_State = Deki::PackageState::Uninitialized;
 }
 
