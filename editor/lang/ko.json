@@ -8,5 +8,9 @@
     "Serial speed, which must match how the module is configured. NEO-6M ships at 9600; a module reconfigured to 38400 and left at 9600 here reads as garbage rather than silence.": "시리얼 속도로, 모듈 설정과 일치해야 합니다. NEO-6M은 출고 시 9600입니다. 모듈을 38400으로 다시 설정하고 여기를 9600으로 두면, 아무것도 들어오지 않는 대신 알아볼 수 없는 데이터가 들어옵니다.",
     "Tx Pin": "TX 핀",
     "Uart Port": "UART 포트",
-    "Which of the chip's serial controllers to use. Port 0 is usually the USB console, so a GPS normally wants 1 or 2.": "칩의 시리얼 컨트롤러 중 어느 것을 쓸지 정합니다. 포트 0은 보통 USB 콘솔이므로, GPS에는 보통 1이나 2를 씁니다."
+    "Which of the chip's serial controllers to use. Port 0 is usually the USB console, so a GPS normally wants 1 or 2.": "칩의 시리얼 컨트롤러 중 어느 것을 쓸지 정합니다. 포트 0은 보통 USB 콘솔이므로, GPS에는 보통 1이나 2를 씁니다.",
+    "Reads location from a u-blox NEO-6M GPS over UART.": "UART로 u-blox NEO-6M GPS에서 위치를 읽습니다.",
+    "Sensors": "센서",
+    "Stands in for the GPS receiver on desktop, so location works without hardware.": "데스크톱에서 GPS 수신기를 대신하여 하드웨어 없이도 위치 기능이 동작하게 합니다.",
+    "System": "시스템"
 }
