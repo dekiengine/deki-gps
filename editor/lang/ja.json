@@ -1,0 +1,12 @@
+{
+    "Baud Rate": "ボーレート",
+    "Desktop GPS Component": "デスクトップ GPS コンポーネント",
+    "GPIO the board receives on, wired to the module's TX. This is the one that carries position data, so a fix that never arrives usually means this pin.": "ボードが受信に使う GPIO で、モジュールの TX につなぎます。位置データはこのピンで届くので、測位がいつまでも得られないときはたいていこのピンが原因です。",
+    "GPIO the board transmits on, wired to the module's RX. Crossed over: this pin talks, the module listens.": "ボードが送信に使う GPIO で、モジュールの RX につなぎます。たすき掛けに配線し、このピンが送信してモジュールが受信します。",
+    "NEO6MGPS Component": "NEO6MGPS コンポーネント",
+    "Rx Pin": "RX ピン",
+    "Serial speed, which must match how the module is configured. NEO-6M ships at 9600; a module reconfigured to 38400 and left at 9600 here reads as garbage rather than silence.": "シリアルの速度で、モジュールの設定と一致させる必要があります。NEO-6M の出荷時は 9600 です。モジュールを 38400 に設定し直してここを 9600 のままにすると、何も届かないのではなく、意味のないデータが届きます。",
+    "Tx Pin": "TX ピン",
+    "Uart Port": "UART ポート",
+    "Which of the chip's serial controllers to use. Port 0 is usually the USB console, so a GPS normally wants 1 or 2.": "チップのどのシリアルコントローラーを使うかです。ポート 0 は通常 USB コンソールなので、GPS にはふつう 1 か 2 を使います。"
+}
