@@ -1,0 +1,12 @@
+{
+    "Baud Rate": "波特率",
+    "Desktop GPS Component": "桌面 GPS 组件",
+    "GPIO the board receives on, wired to the module's TX. This is the one that carries position data, so a fix that never arrives usually means this pin.": "开发板用于接收的 GPIO，连接到模块的 TX。位置数据通过这个引脚传入，所以一直无法定位时，通常是这个引脚的问题。",
+    "GPIO the board transmits on, wired to the module's RX. Crossed over: this pin talks, the module listens.": "开发板用于发送的 GPIO，连接到模块的 RX。交叉连接：这个引脚发送，模块接收。",
+    "NEO6MGPS Component": "NEO6MGPS 组件",
+    "Rx Pin": "RX 引脚",
+    "Serial speed, which must match how the module is configured. NEO-6M ships at 9600; a module reconfigured to 38400 and left at 9600 here reads as garbage rather than silence.": "串口速度，必须与模块的配置一致。NEO-6M 出厂为 9600；如果模块改成了 38400 而这里仍为 9600，读到的会是乱码，而不是没有数据。",
+    "Tx Pin": "TX 引脚",
+    "Uart Port": "UART 端口",
+    "Which of the chip's serial controllers to use. Port 0 is usually the USB console, so a GPS normally wants 1 or 2.": "使用芯片的哪个串口控制器。端口 0 通常是 USB 控制台，所以 GPS 一般使用 1 或 2。"
+}
