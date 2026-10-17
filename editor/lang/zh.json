@@ -5,12 +5,14 @@
     "GPIO the board transmits on, wired to the module's RX. Crossed over: this pin talks, the module listens.": "开发板用于发送的 GPIO，连接到模块的 RX。交叉连接：这个引脚发送，模块接收。",
     "NEO6MGPS Component": "NEO6MGPS 组件",
     "Rx Pin": "RX 引脚",
-    "Serial speed, which must match how the module is configured. NEO-6M ships at 9600; a module reconfigured to 38400 and left at 9600 here reads as garbage rather than silence.": "串口速度，必须与模块的配置一致。NEO-6M 出厂为 9600；如果模块改成了 38400 而这里仍为 9600，读到的会是乱码，而不是没有数据。",
+    "Serial speed, which must match how the module is configured. NEO-6M ships at 9600; a module reconfigured to 38400 and left at 9600 here reads as garbage rather than silence. 0 finds it: 9600, 38400, 115200, 57600 and 4800 are tried until valid NMEA arrives, for a board that ships with more than one kind of module.": "串口速度，必须与模块的配置一致。NEO-6M 出厂为 9600；如果模块改成了 38400 而这里仍为 9600，读到的会是乱码，而不是没有数据。设为 0 时会自动查找：依次尝试 9600、38400、115200、57600 和 4800，直到收到有效的 NMEA，适用于搭载多种模块的开发板。",
     "Tx Pin": "TX 引脚",
     "Uart Port": "UART 端口",
     "Which of the chip's serial controllers to use. Port 0 is usually the USB console, so a GPS normally wants 1 or 2.": "使用芯片的哪个串口控制器。端口 0 通常是 USB 控制台，所以 GPS 一般使用 1 或 2。",
     "Reads location from a u-blox NEO-6M GPS over UART.": "通过 UART 从 u-blox NEO-6M GPS 读取位置。",
     "Sensors": "传感器",
     "Stands in for the GPS receiver on desktop, so location works without hardware.": "在桌面平台上代替 GPS 接收器，无需硬件即可获取位置。",
-    "System": "系统"
+    "System": "系统",
+    "Desktop GPS": "桌面 GPS",
+    "NEO-6M GPS": "NEO-6M GPS"
 }
