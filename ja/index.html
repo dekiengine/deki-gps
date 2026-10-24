@@ -57,7 +57,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">deki-gps<span id="projectnumber">&#160;0.19.0</span>
+   <div id="projectname">deki-gps<span id="projectnumber">&#160;0.20.2</span>
    </div>
    <div id="projectbrief">Deki パッケージリファレンス</div>
   </td>
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('index.html',''
 <img src="deki-gps.png" alt=""/>
 </div>
     <p>GPS 周辺機器。どのトーカーの NMEA でも UART 経由で読み取り、受信機の通信速度を自分で見つけ、衛星数と高度を報告します。</p>
-<p>リポジトリ: <a href="https://github.com/dekiengine/deki-gps">github.com/dekiengine/deki-gps</a> · 最新リリース: 0.19.0 · エンジン 0.19.0 以降が必要 · 依存: <a href="https://dekiengine.github.io/deki-http/ja/">deki-http</a>, <a href="https://dekiengine.github.io/deki-uart/ja/">deki-uart</a></p>
+<p>リポジトリ: <a href="https://github.com/dekiengine/deki-gps">github.com/dekiengine/deki-gps</a> · 最新リリース: 0.20.0 · エンジン 0.19.0 以降が必要 · 依存: <a href="https://dekiengine.github.io/deki-http/ja/">deki-http</a>, <a href="https://dekiengine.github.io/deki-uart/ja/">deki-uart</a></p>
 <p><span class="tt">DekiEditor --packages-add deki-gps &lt;project&gt;</span> か、パッケージマネージャーからインストールします。エンジン自身のコンポーネントと C++ API は <a href="https://dekiengine.github.io/docs/ja/">Deki のドキュメント</a>にあります。</p>
 <p>エディターでは <b>GPS (NMEA over UART)</b> と表示されます。</p>
 <h1 class="doxsection"><a class="anchor" id="components"></a>
@@ -164,36 +164,27 @@ NEO6MGPSComponent</h2>
 変更履歴</h1>
 <p>変更履歴は英語です。</p>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md0"></a>
-0.19.0</h2>
+0.20.0</h2>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
+Fixed</h2>
+<ul>
+<li>The component display names the translation check had missed are translated into Japanese, Simplified Chinese and Korean.</li>
+</ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
+0.19.0</h2>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
 Changed</h2>
 <ul>
 <li><span class="tt">minEngine</span> 0.19.0: built against engine 0.19.0, whose component metadata records the package each class is in. A build of this package from before does not load and is rebuilt.</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
 Added</h2>
 <ul>
 <li>Japanese, Simplified Chinese and Korean: <span class="tt">editor/lang/ja.json</span>, <span class="tt">zh.json</span> and <span class="tt">ko.json</span> translate the names, tooltips and enum values this package's components show in the Inspector.</li>
 </ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
-0.18.2</h2>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
-Added</h2>
-<ul>
-<li><span class="tt">IDekiGPS::Status()</span>: sentences read, satellites in view (all constellations) and in use, altitude, and the serial speed. Indoors, where there may never be a fix, it shows whether the receiver is talking and how the search is going.</li>
-<li><span class="tt">baudRate</span> 0 on NEO6MGPSComponent finds the speed: 9600, 38400, 115200, 57600 and 4800 are tried until a valid sentence arrives. For a board that ships with more than one kind of module (the LilyGO T-Deck Plus: L76K or u-blox M10).</li>
-<li>Reads $&ndash;GGA and $&ndash;GSV besides $&ndash;RMC, from any talker.</li>
-<li><span class="tt">DekiGPSStatus::bytes</span>: bytes read from the receiver, valid or not. With no sentences, bytes mean a wrong speed; none, a wrong pin or no power.</li>
-</ul>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Fixed</h2>
-<ul>
-<li><b>A device never read its GPS.</b> Nothing called the NMEA driver's update, so its UART was never read and there was never a fix. NEO6MGPSComponent now updates it every frame.</li>
-<li>A position sentence with an empty field (no course, as when standing still) shifted every field after it, losing the date and time: fields were split with strtok, which skips empty ones.</li>
-</ul>
 <p>それ以前のリリース: <a href="https://github.com/dekiengine/deki-gps/blob/master/CHANGELOG.md">CHANGELOG.md</a></p>
 <hr  />
-<p>パッケージのリフレクションデータから生成しています (エンジン 0.19.0)。プロパティ名はシーンファイルで使われるキーです。名前を変えても別名が残ります (<a href="https://github.com/dekiengine/deki-editor/blob/master/COMPATIBILITY.md">互換性</a>)。 </p>
+<p>パッケージのリフレクションデータから生成しています (エンジン 0.20.2)。プロパティ名はシーンファイルで使われるキーです。名前を変えても別名が残ります (<a href="https://github.com/dekiengine/deki-editor/blob/master/COMPATIBILITY.md">互換性</a>)。 </p>
 </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->
