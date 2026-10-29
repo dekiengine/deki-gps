@@ -52,6 +52,10 @@ obj->AddComponent<SomeComponent>();
 
 Package Manager in the Deki Editor, or `DekiEditor --packages-add deki-gps <project>`.
 
+## Community
+
+Questions, ideas and what you made with Deki: [the Deki Discord](https://dekiengine.com/discord/).
+
 ## License
 
 Apache 2.0. See [LICENSE](LICENSE).
