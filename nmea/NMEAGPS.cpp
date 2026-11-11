@@ -32,10 +32,10 @@ int64_t DaysFromCivilUTC(int y, unsigned m, unsigned d)
 {
     y -= (m <= 2);
     const int era = (y >= 0 ? y : y - 399) / 400;
-    const unsigned yoe = (unsigned)(y - era * 400);
+    const unsigned yoe = static_cast<unsigned>(y - era * 400);
     const unsigned doy = (153 * (m > 2 ? m - 3 : m + 9) + 2) / 5 + d - 1;
     const unsigned doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
-    return (int64_t)era * 146097 + (int64_t)doe - 719468;
+    return static_cast<int64_t>(era) * 146097 + static_cast<int64_t>(doe) - 719468;
 }
 
 // Splits a sentence into its fields in place, keeping empty ones: ",," is an
@@ -74,7 +74,7 @@ void NMEAGPS::Configure(const Deki::PackageConfig& config)
 {
     m_PinTX = config.GetPin("TX", -1);
     m_PinRX = config.GetPin("RX", -1);
-    m_Baud = (uint32_t)config.GetInt("baudRate", 9600);
+    m_Baud = static_cast<uint32_t>(config.GetInt("baudRate", 9600));
     m_UartPort = config.GetInt("uartPort", 1);
 }
 
@@ -185,7 +185,7 @@ void NMEAGPS::PumpUart()
     }
     for (int i = 0; i < n; ++i)
     {
-        char c = (char)buf[i];
+        char c = static_cast<char>(buf[i]);
         if (c == '\n' || m_LinePos >= sizeof(m_LineBuffer) - 1)
         {
             m_LineBuffer[m_LinePos] = 0;
@@ -213,14 +213,14 @@ bool NMEAGPS::ChecksumValid(const char* line)
     uint8_t cs = 0;
     for (const char* p = line + 1; p < star; ++p)
     {
-        cs ^= (uint8_t)*p;
+        cs ^= static_cast<uint8_t>(*p);
     }
     unsigned want = 0;
     if (std::sscanf(star + 1, "%2x", &want) != 1)
     {
         return false;
     }
-    return (uint8_t)want == cs;
+    return static_cast<uint8_t>(want) == cs;
 }
 
 double NMEAGPS::NMEACoordToDeg(const char* coord, char hemi)
@@ -267,7 +267,8 @@ void NMEAGPS::HandleRMC(char** f, int n)
             mo <= 12)
         {
             const int64_t utcEpoch =
-                DaysFromCivilUTC(2000 + yy, (unsigned)mo, (unsigned)dd) * 86400 + hh * 3600 + mm * 60 + ss;
+                DaysFromCivilUTC(2000 + yy, static_cast<unsigned>(mo), static_cast<unsigned>(dd)) * 86400 + hh * 3600 +
+                mm * 60 + ss;
             m_UTCEpoch.store(utcEpoch, std::memory_order_relaxed);
             m_HasUTC.store(true, std::memory_order_relaxed);
         }
@@ -335,7 +336,8 @@ void NMEAGPS::HandleLine(const char* line)
         // A sentence with a valid checksum: this is the speed.
         m_SearchingBaud = false;
         m_BaudInUse.store(kBaudCandidates[m_BaudCandidate], std::memory_order_relaxed);
-        DEKI_LOG_INFO("NMEAGPS: the receiver talks at %u baud", (unsigned)kBaudCandidates[m_BaudCandidate]);
+        DEKI_LOG_INFO("NMEAGPS: the receiver talks at %u baud",
+                      static_cast<unsigned>(kBaudCandidates[m_BaudCandidate]));
     }
 
     char sentence[sizeof(m_LineBuffer)];

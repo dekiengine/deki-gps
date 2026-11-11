@@ -53,7 +53,8 @@ void NEO6MGPSComponent::Setup(SetupCallback onComplete)
     else
     {
         DEKI_LOG_ERROR("NEO6MGPSComponent: Failed to initialize NEO-6M on UART %d (TX=%d RX=%d @ %d baudRate)",
-                       (int)uartPort, (int)txPin, (int)rxPin, (int)baudRate);
+                       static_cast<int>(uartPort), static_cast<int>(txPin), static_cast<int>(rxPin),
+                       static_cast<int>(baudRate));
     }
 
     if (onComplete)

@@ -60,7 +60,7 @@ bool DesktopGPS::HasLiveFix() const
 
 int64_t DesktopGPS::CurrentUTCEpochSeconds() const
 {
-    return (int64_t)std::time(nullptr);
+    return static_cast<int64_t>(std::time(nullptr));
 }
 
 bool DesktopGPS::HasUTC() const
